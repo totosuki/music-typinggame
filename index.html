@@ -1,38 +1,23 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>音声読み上げタイピングゲーム</title>
-  <style>
-    body { font-family: sans-serif; text-align: center; padding: 3em; background: #F0F0F0; }
-    h1 { color: #333; font-size: 3em; margin-bottom: 30px; }
-    .input-area { margin-top: 40px; }
-    input[type="text"] {
-      font-size: 1.8em;
-      padding: 10px;
-      width: 80%;
-      max-width: 600px;
-    }
-    .result { margin-top: 30px; font-size: 1.5em; }
-    button {
-      font-size: 1.5em;
-      padding: 15px 30px;
-      cursor: pointer;
-      margin: 10px;
-    }
-    .score { margin-top: 20px; font-size: 1.5em; font-weight: bold; }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>:ヘッドフォン: タイピングで聞き取りゲーム</h1>
-  <button id="startBtn">スタート</button>
-  <button id="speakBtn" disabled>:音量大: もう一度再生</button>
+  <h1>🎧 タイピングで聞き取りゲーム</h1>
+  <div class="button-group">
+    <button id="startBtn">スタート</button>
+    <button id="speakBtn" disabled>🔊 もう一度再生</button>
+  </div>
   <div class="input-area">
     <input type="text" id="userInput" placeholder="聞こえた文章を入力してください" disabled />
   </div>
   <div class="result" id="result"></div>
   <div class="score" id="score">スコア: 0</div>
+
   <script>
     const sentences = [
       "今日はいい天気ですね",
@@ -53,14 +38,17 @@
     const scoreEl = document.getElementById("score");
     const startBtn = document.getElementById("startBtn");
     const speakBtn = document.getElementById("speakBtn");
+
     function getRandomSentence() {
       return sentences[Math.floor(Math.random() * sentences.length)];
     }
+
     function speakSentence(text) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "ja-JP";
       window.speechSynthesis.speak(utterance);
     }
+
     function nextRound() {
       currentSentence = getRandomSentence();
       resultEl.textContent = "";
@@ -70,22 +58,25 @@
       speakBtn.disabled = false;
       speakSentence(currentSentence);
     }
+
     startBtn.addEventListener("click", () => {
       score = 0;
       scoreEl.textContent = `スコア: ${score}`;
       nextRound();
     });
+
     speakBtn.addEventListener("click", () => {
       speakSentence(currentSentence);
     });
+
     userInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         const answer = userInput.value.trim();
         if (answer === currentSentence) {
           score++;
-          resultEl.textContent = `:チェックマーク_緑: 正解！`;
+          resultEl.textContent = `✅ 正解！`;
         } else {
-          resultEl.textContent = `:x: 不正解です。正解は「${currentSentence}」でした`;
+          resultEl.textContent = `❌ 不正解です。正解は「${currentSentence}」でした`;
         }
         scoreEl.textContent = `スコア: ${score}`;
         userInput.disabled = true;
