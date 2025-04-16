@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>音声読み上げタイピングゲーム</title>
+  <title>音声タイピングゲーム</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <h1>🎧 タイピングで聞き取りゲーム</h1>
-  <div class="button-group">
-    <button id="startBtn">スタート</button>
-    <button id="speakBtn" disabled>🔊 もう一度再生</button>
+  <div class="container">
+    <div class="card">
+      <h1>Voice Typing</h1>
+      <div class="button-group">
+        <button id="startBtn">🚀 スタート</button>
+        <button id="speakBtn" disabled>🔊 再生</button>
+      </div>
+      <input type="text" id="userInput" placeholder="聞こえた文章を入力..." disabled />
+      <div class="result" id="result"></div>
+      <div class="score" id="score">スコア: 0</div>
+    </div>
   </div>
-  <div class="input-area">
-    <input type="text" id="userInput" placeholder="聞こえた文章を入力してください" disabled />
-  </div>
-  <div class="result" id="result"></div>
-  <div class="score" id="score">スコア: 0</div>
-
   <script src="script.js"></script>
 </body>
 </html>
