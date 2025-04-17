@@ -11,22 +11,70 @@
   <div class="container">
     <div class="card">
       <h1>Voice Typing</h1>
+      
+      <!-- タイマーと難易度選択 -->
+      <div class="game-controls">
+        <div class="control-group">
+          <label for="time-select">制限時間:</label>
+          <select id="time-select">
+            <option value="30">30秒</option>
+            <option value="60" selected>1分</option>
+            <option value="120">2分</option>
+            <option value="180">3分</option>
+            <option value="300">5分</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="difficulty-select">難易度:</label>
+          <select id="difficulty-select">
+            <option value="easy">初級</option>
+            <option value="normal" selected>中級</option>
+            <option value="hard">上級</option>
+          </select>
+        </div>
+        <div id="time-display">残り時間: 60秒</div>
+      </div>
+      
       <div class="button-group">
         <button id="startBtn">🚀 スタート</button>
         <button id="speakBtn" disabled>🔊 再生</button>
       </div>
+      
+      <!-- 文章タイマー -->
+      <div id="sentence-timer" class="sentence-timer" style="display: none;">
+        <span>文章の制限時間: <span id="sentence-time-remaining">0</span>秒</span>
+      </div>
+      
       <input type="text" id="userInput" placeholder="聞こえた文章を入力..." disabled />
       <div class="result" id="result"></div>
       <div class="score" id="score">スコア: 0</div>
-      <div class="result" id="result"></div>
+      
+      <!-- 最終結果表示 -->
       <div class="final-result" id="finalResult" style="display: none;">
         <h2>🎉 ゲーム終了！</h2>
+        <div id="rank-display" class="rank-display">
+          <span id="rank-badge" class="rank rank-s">S</span>
+          <p id="rank-message">素晴らしい！タイピングの達人ですね！</p>
+        </div>
         <p id="finalScore"></p>
         <button id="restartBtn">もう一度プレイ</button>
       </div>
+      
+      <!-- 操作説明 -->
+      <div class="instructions" id="instructions">
+        <div class="instructions-box">
+          <p>【操作方法】</p>
+          <ul>
+            <li>Enterキー: ゲーム開始 / 回答送信</li>
+            <li>Escキー: タイトル画面に戻る</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- プログレスバー -->
       <div class="progress-container">
         <div id="progress-bar"></div>
-      </div>      
+      </div>
     </div>
   </div>
   <script src="script.js"></script>

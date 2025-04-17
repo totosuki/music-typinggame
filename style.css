@@ -15,17 +15,83 @@ body {
   min-height: 100vh;
 }
 
+.container {
+  width: 100%;
+  max-width: 900px;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
 h1 {
   font-size: 2.8rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   font-weight: 600;
   text-align: center;
 }
 
+/* ゲームコントロール */
+.game-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.8rem;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+select {
+  font-size: 1rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+
+#time-display {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* 文章タイマー */
+.sentence-timer {
+  margin: 1rem 0;
+  font-size: 1.1rem;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.12);
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+/* ボタングループ */
 .button-group {
   display: flex;
   gap: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -35,16 +101,17 @@ button {
   padding: 0.9rem 2rem;
   border: none;
   border-radius: 12px;
-  background-color: #ffffff10;
+  background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
   font-weight: 500;
   backdrop-filter: blur(6px);
   transition: all 0.25s ease-in-out;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
 button:hover:not(:disabled) {
-  background-color: #ffffff25;
+  background-color: rgba(255, 255, 255, 0.25);
   transform: scale(1.05);
 }
 
@@ -55,14 +122,13 @@ button:disabled {
 
 input[type="text"] {
   width: 100%;
-  max-width: 800px;
   font-size: 1.5rem;
   padding: 1rem 1.2rem;
   border-radius: 12px;
   border: none;
-  background-color: #ffffff15;
+  background-color: rgba(255, 255, 255, 0.15);
   color: #fff;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   backdrop-filter: blur(4px);
 }
 
@@ -81,36 +147,16 @@ input::placeholder {
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-/* スマホ対応 */
-@media (max-width: 600px) {
-  body {
-    padding: 2rem 1rem;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  input[type="text"] {
-    font-size: 1.2rem;
-  }
-
-  button {
-    font-size: 1rem;
-    padding: 0.8rem 1.2rem;
-  }
-}
-
-
+/* プログレスバー */
 .progress-container {
   width: 100%;
-  max-width: 800px;
   height: 12px;
-  background-color: #ffffff30;
+  background-color: rgba(255, 255, 255, 0.3);
   border-radius: 6px;
-  margin-bottom: 2rem;
+  margin-top: 1.5rem;
   overflow: hidden;
 }
 
@@ -121,28 +167,162 @@ input::placeholder {
   transition: width 0.3s ease-in-out;
 }
 
+/* 最終結果表示 */
 .final-result {
-  margin-top: 2rem;
+  text-align: center;
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+}
+
+.final-result h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* ランク表示 */
+.rank-display {
+  margin: 1.5rem 0;
   text-align: center;
 }
 
+.rank {
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: bold;
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.rank-s {
+  background-color: #ffd700;
+  color: #000;
+}
+
+.rank-a {
+  background-color: #c0c0c0;
+  color: #000;
+}
+
+.rank-b {
+  background-color: #cd7f32;
+  color: #fff;
+}
+
+.rank-c {
+  background-color: #6c757d;
+  color: #fff;
+}
+
 #restartBtn {
-  all: unset;
   font-size: 1.2rem;
   padding: 0.9rem 2rem;
   border-radius: 12px;
-  background-color: #ffffff10;
+  background-color: rgba(255, 255, 255, 0.15);
   color: #fff;
+  border: none;
   font-weight: 500;
   backdrop-filter: blur(6px);
   transition: all 0.25s ease-in-out;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  margin-top: 1.5rem;
-  display: inline-block;
-  text-align: center;
+  margin-top: 1rem;
 }
+
 #restartBtn:hover {
-  background-color: #ffffff25;
+  background-color: rgba(255, 255, 255, 0.25);
   transform: scale(1.05);
+}
+
+/* タイムワーニング */
+.time-warning {
+  color: #ff4757;
+}
+
+/* 操作説明 */
+.instructions {
+  margin-top: 1.5rem;
+}
+
+.instructions-box {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid #10b981;
+  text-align: left;
+}
+
+.instructions-box p {
+  font-weight: bold;
+  margin-bottom: 0.8rem;
+}
+
+.instructions-box ul {
+  list-style-type: none;
+}
+
+.instructions-box li {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.instructions-box li:before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #10b981;
+}
+
+/* タイトル画面 */
+.title-screen {
+  text-align: center;
+  margin: 1rem 0 2rem;
+}
+
+.title-screen h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.title-screen p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+/* スマホ対応 */
+@media (max-width: 600px) {
+  body {
+    padding: 2rem 1rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .game-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+
+  input[type="text"] {
+    font-size: 1.2rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 0.8rem 1.2rem;
+  }
 }
