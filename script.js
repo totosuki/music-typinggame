@@ -152,8 +152,6 @@ let sentenceTimer;
 let isGameActive = false;
 let currentDifficulty = "normal"; // デフォルトの難易度
 let isGameStarted = false; // ゲームが開始されたかどうかのフラグ
-let currentRound = 0; // 現在のラウンド
-let maxRounds = 10; // 最大ラウンド数
 
 // DOM要素
 const userInput = document.getElementById("userInput");
@@ -162,8 +160,6 @@ const scoreEl = document.getElementById("score");
 const startBtn = document.getElementById("startBtn");
 const speakBtn = document.getElementById("speakBtn");
 const timeSelect = document.getElementById("time-select");
-const timeDisplay = document.getElementById("time-display");
-const progressBar = document.getElementById("progress-bar");
 const finalResult = document.getElementById("finalResult");
 const finalScore = document.getElementById("finalScore");
 const restartBtn = document.getElementById("restartBtn");
@@ -172,6 +168,41 @@ const sentenceTimerEl = document.getElementById("sentence-timer");
 const instructionsEl = document.getElementById("instructions");
 const rankBadge = document.getElementById("rank-badge");
 const rankMessage = document.getElementById("rank-message");
+const timeDisplay = document.getElementById("time-display");
+
+// バーの初期化
+function setupTimeBar() {
+  // 時間表示を非表示
+  if (timeDisplay) {
+    timeDisplay.style.display = "none";
+  }
+  
+  // ゲームコントロール部分にタイムバーを追加
+  const gameControls = document.querySelector('.game-controls');
+  if (gameControls) {
+    // 古いプログレスバーがあれば削除
+    const oldProgressContainer = document.querySelector('.progress-container');
+    if (oldProgressContainer) {
+      oldProgressContainer.remove();
+    }
+    
+    // 新しいプログレスバーをゲームコントロールの直後に挿入
+    const progressContainer = document.createElement('div');
+    progressContainer.className = 'progress-container';
+    progressContainer.innerHTML = '<div id="progress-bar"></div>';
+    
+    // ゲームコントロールの後に挿入
+    gameControls.parentNode.insertBefore(progressContainer, gameControls.nextSibling);
+    
+    // スタイルを直接設定
+    const progressBar = document.getElementById('progress-bar');
+    if (progressBar) {
+      progressBar.style.width = "100%";
+      progressBar.style.backgroundColor = "#10b981"; // 緑色
+      console.log("Progress bar initialized successfully");
+    }
+  }
+}
 
 // 音声フィードバック用の関数
 function speakFeedback(text) {
@@ -252,25 +283,26 @@ function getRandomSentence() {
 
 // ランク判定関数
 function calculateRank(score) {
-  // 難易度によってランク判定基準を変える
-  const percentage = (score / currentRound) * 100;
+  // プレイ時間から計算
+  const totalTime = timeLimit;
+  const averageTimePerCorrect = score > 0 ? totalTime / score : totalTime;
   
   switch(currentDifficulty) {
     case "easy":
-      if (percentage >= 90) return "S";
-      if (percentage >= 70) return "A";
-      if (percentage >= 50) return "B";
+      if (averageTimePerCorrect < 5) return "S";
+      if (averageTimePerCorrect < 8) return "A";
+      if (averageTimePerCorrect < 12) return "B";
       return "C";
     case "hard":
-      if (percentage >= 80) return "S";
-      if (percentage >= 60) return "A";
-      if (percentage >= 40) return "B";
+      if (averageTimePerCorrect < 10) return "S";
+      if (averageTimePerCorrect < 15) return "A";
+      if (averageTimePerCorrect < 20) return "B";
       return "C";
     case "normal":
     default:
-      if (percentage >= 85) return "S";
-      if (percentage >= 65) return "A";
-      if (percentage >= 45) return "B";
+      if (averageTimePerCorrect < 7) return "S";
+      if (averageTimePerCorrect < 12) return "A";
+      if (averageTimePerCorrect < 18) return "B";
       return "C";
   }
 }
@@ -320,17 +352,28 @@ function speakSentence(text) {
   }
 }
 
-// プログレスバーを更新
-function updateProgressBar() {
-  // ラウンドベースのモードの場合
-  if (maxRounds > 0) {
-    const percent = (currentRound / maxRounds) * 100;
-    progressBar.style.width = `${percent}%`;
-  }
-  // 時間制限モードの場合
-  else {
-    const percent = ((timeLimit - timeRemaining) / timeLimit) * 100;
-    progressBar.style.width = `${percent}%`;
+// タイムバーを更新する関数
+function updateTimeBar() {
+  // 要素を確実に取得
+  const progressBar = document.getElementById("progress-bar");
+  
+  if (progressBar) {
+    const percentRemaining = (timeRemaining / timeLimit) * 100;
+    progressBar.style.width = `${percentRemaining}%`;
+    
+    // 残り時間によって色を変える
+    if (percentRemaining <= 20) {
+      progressBar.style.backgroundColor = "#dc2626"; // 赤
+    } else if (percentRemaining <= 50) {
+      progressBar.style.backgroundColor = "#fbbf24"; // 黄
+    } else {
+      progressBar.style.backgroundColor = "#10b981"; // 緑
+    }
+    
+    // デバッグ出力（必要に応じてコメントアウト）
+    // console.log(`Time: ${timeRemaining}/${timeLimit}, Bar: ${percentRemaining}%`);
+  } else {
+    console.error("Progress bar element not found!");
   }
 }
 
@@ -359,15 +402,8 @@ function startSentenceTimer() {
       // 不正解の音声フィードバック
       playIncorrectFeedback();
       
-      // 次のラウンド
-      currentRound++;
-      
-      // ラウンド制の場合
-      if (maxRounds > 0 && currentRound >= maxRounds) {
-        setTimeout(showFinalResult, 2000);
-      } else {
-        setTimeout(nextRound, 2000);
-      }
+      // 少し待ってから次の問題へ
+      setTimeout(nextRound, 2000);
     }
   }, 1000);
 }
@@ -395,29 +431,16 @@ function startTimer() {
   
   isGameActive = true;
   timeRemaining = timeLimit;
-  updateTimerDisplay();
+  updateTimeBar(); // 初期化時にバーを更新
   
   timer = setInterval(() => {
     timeRemaining--;
-    updateTimerDisplay();
-    updateProgressBar(); // プログレスバーも更新
+    updateTimeBar(); // 毎秒バーを更新
     
     if (timeRemaining <= 0) {
       endGame();
     }
   }, 1000);
-}
-
-// タイマー表示を更新
-function updateTimerDisplay() {
-  timeDisplay.textContent = `残り時間: ${timeRemaining}秒`;
-  
-  // 残り時間が10秒以下になったら赤く表示
-  if (timeRemaining <= 10) {
-    timeDisplay.classList.add("time-warning");
-  } else {
-    timeDisplay.classList.remove("time-warning");
-  }
 }
 
 // ゲーム終了処理
@@ -435,7 +458,10 @@ function endGame() {
 // 最終結果を表示
 function showFinalResult() {
   // プログレスバーを非表示にする
-  document.querySelector('.progress-container').style.display = 'none';
+  const progressContainer = document.querySelector('.progress-container');
+  if (progressContainer) {
+    progressContainer.style.display = 'none';
+  }
   
   // 入力欄や再生ボタンを非表示にする
   userInput.style.display = "none";
@@ -452,11 +478,7 @@ function showFinalResult() {
   rankMessage.textContent = rankMessageText;
   
   // 最終スコア表示
-  if (maxRounds > 0) {
-    finalScore.textContent = `あなたのスコアは ${score} / ${maxRounds} です`;
-  } else {
-    finalScore.textContent = `あなたは ${timeLimit} 秒間で ${score} 問正解しました！`;
-  }
+  finalScore.textContent = `あなたは ${timeLimit} 秒間で ${score} 問正解しました！`;
   
   // 最終結果を表示
   finalResult.style.display = "block";
@@ -477,7 +499,6 @@ function returnToTitle() {
   
   // UIをリセット
   score = 0;
-  currentRound = 0;
   scoreEl.textContent = `スコア: ${score}`;
   resultEl.textContent = "";
   userInput.value = "";
@@ -493,11 +514,20 @@ function returnToTitle() {
   finalResult.style.display = "none";
   
   // プログレスバーをリセット
-  document.querySelector('.progress-container').style.display = 'block';
-  progressBar.style.width = "0%";
+  const progressContainer = document.querySelector('.progress-container');
+  if (progressContainer) {
+    progressContainer.style.display = 'block';
+    const progressBar = document.getElementById('progress-bar');
+    if (progressBar) {
+      progressBar.style.width = "100%";
+      progressBar.style.backgroundColor = "#10b981"; // 緑色に戻す
+    }
+  }
   
   // 文章タイマーを非表示
-  sentenceTimerEl.style.display = "none";
+  if (sentenceTimerEl) {
+    sentenceTimerEl.style.display = "none";
+  }
   
   // タイトル画面のメッセージを表示
   resultEl.innerHTML = `
@@ -509,13 +539,15 @@ function returnToTitle() {
   `;
   
   // 操作説明を表示
-  instructionsEl.style.display = "block";
+  if (instructionsEl) {
+    instructionsEl.style.display = "block";
+  }
 }
 
 // 次のラウンドを開始
 function nextRound() {
-  // ラウンド制の場合、最大ラウンド数に達したらゲーム終了
-  if (maxRounds > 0 && currentRound >= maxRounds) {
+  // 時間切れならゲーム終了
+  if (timeRemaining <= 0) {
     showFinalResult();
     return;
   }
@@ -526,9 +558,6 @@ function nextRound() {
   userInput.disabled = false;
   userInput.focus();
   speakBtn.disabled = false;
-  
-  // プログレスバーを更新
-  updateProgressBar();
   
   // ゲームがアクティブでなければタイマーを開始
   if (!isGameActive) {
@@ -545,31 +574,40 @@ function nextRound() {
 // ゲームをリセット
 function resetGame() {
   score = 0;
-  currentRound = 0;
   scoreEl.textContent = `スコア: ${score}`;
   
   // UIをリセット
   finalResult.style.display = "none";
-  document.querySelector('.progress-container').style.display = 'block';
+  const progressContainer = document.querySelector('.progress-container');
+  if (progressContainer) {
+    progressContainer.style.display = 'block';
+  }
   userInput.style.display = "block";
   speakBtn.style.display = "inline-block";
   
   // タイマーをリセット
   clearInterval(timer);
   timeRemaining = timeLimit;
-  updateTimerDisplay();
+  
+  // プログレスバーをリセット
+  const progressBar = document.getElementById('progress-bar');
+  if (progressBar) {
+    progressBar.style.width = "100%";
+    progressBar.style.backgroundColor = "#10b981"; // 緑色に戻す
+  }
   
   // 文章タイマーを表示
-  sentenceTimerEl.style.display = "block";
+  if (sentenceTimerEl) {
+    sentenceTimerEl.style.display = "block";
+  }
   
   // 操作説明を非表示
-  instructionsEl.style.display = "none";
+  if (instructionsEl) {
+    instructionsEl.style.display = "none";
+  }
   
   // ゲーム状態をリセット
   isGameStarted = true;
-  
-  // プログレスバーをリセット
-  progressBar.style.width = "0%";
   
   // ゲームを開始
   nextRound();
@@ -577,17 +615,18 @@ function resetGame() {
 
 // ゲームスタート関数
 function startGame() {
+  // バーをセットアップ
+  setupTimeBar();
+  
   // 難易度を取得
   currentDifficulty = difficultySelect ? difficultySelect.value : "normal";
   
   // 制限時間を取得
   timeLimit = parseInt(timeSelect ? timeSelect.value : 60);
   timeRemaining = timeLimit;
-  updateTimerDisplay();
   
   // スコアリセット
   score = 0;
-  currentRound = 0;
   scoreEl.textContent = `スコア: ${score}`;
   
   // UI調整
@@ -597,10 +636,21 @@ function startGame() {
   finalResult.style.display = "none";
   
   // 文章タイマー要素を表示
-  sentenceTimerEl.style.display = "block";
+  if (sentenceTimerEl) {
+    sentenceTimerEl.style.display = "block";
+  }
   
   // 操作説明を非表示
-  instructionsEl.style.display = "none";
+  if (instructionsEl) {
+    instructionsEl.style.display = "none";
+  }
+  
+  // タイムバーを初期化
+  const progressBar = document.getElementById('progress-bar');
+  if (progressBar) {
+    progressBar.style.width = "100%";
+    progressBar.style.backgroundColor = "#10b981"; // 緑色
+  }
   
   // ゲーム状態を更新
   isGameStarted = true;
@@ -643,7 +693,6 @@ if (timeSelect) {
   timeSelect.addEventListener("change", () => {
     timeLimit = parseInt(timeSelect.value);
     timeRemaining = timeLimit;
-    updateTimerDisplay();
   });
 }
 
@@ -674,23 +723,15 @@ userInput.addEventListener("keydown", (e) => {
     userInput.disabled = true;
     speakBtn.disabled = true;
     
-    // ラウンドをカウントアップ
-    currentRound++;
-    
-    // ラウンド制の場合
-    if (maxRounds > 0 && currentRound >= maxRounds) {
-      setTimeout(showFinalResult, 2000);
-    } else {
-      setTimeout(nextRound, 2000);
-    }
+    // 少し待ってから次の問題へ
+    setTimeout(nextRound, 2000);
   }
 });
 
 // ページ読み込み時の初期化
 document.addEventListener("DOMContentLoaded", () => {
-  // タイマー表示の初期化
-  timeRemaining = timeLimit;
-  updateTimerDisplay();
+  // バーをセットアップ
+  setupTimeBar();
   
   // 最初はタイトル画面を表示
   returnToTitle();
