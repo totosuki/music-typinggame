@@ -1,6 +1,4 @@
-// 文章のコレクション（ご友人の作成した20個 + 先ほど追加した100個以上）
 const sentences = [
-  // ご友人の作成した20個
   "宇宙開発に新たな企業が参入",
   "高校生が国際科学賞を受賞",
   "水不足対策で節水呼びかけ",
@@ -21,8 +19,6 @@ const sentences = [
   "オンライン授業が常態化進む",
   "住宅価格の高騰が各地で続く",
   "外国人観光客の受け入れ再開",
-  
-  // 追加した100個
   "今日はいい天気ですね",
   "明日は早く起きます",
   "猫がソファで寝ている",
@@ -736,3 +732,51 @@ document.addEventListener("DOMContentLoaded", () => {
   // 最初はタイトル画面を表示
   returnToTitle();
 });
+// 既存の showFinalResult 関数を修正
+function showFinalResult() {
+  // プログレスバーを非表示にする
+  const progressContainer = document.querySelector('.progress-container');
+  if (progressContainer) {
+    progressContainer.style.display = 'none';
+  }
+  
+  // 入力欄や再生ボタンを非表示にする
+  userInput.style.display = "none";
+  speakBtn.style.display = "none";
+  startBtn.style.display = "none";
+  
+  // ランク判定
+  const rank = calculateRank(score);
+  const rankMessageText = getRankMessage(rank);
+  
+  // ランク表示を更新
+  rankBadge.textContent = rank;
+  rankBadge.className = `rank rank-${rank.toLowerCase()}`;
+  rankMessage.textContent = rankMessageText;
+  
+  // 最終スコア表示
+  finalScore.textContent = `あなたは ${timeLimit} 秒間で ${score} 問正解しました！`;
+  
+  // A以上のランクの場合、招待メッセージを表示
+  if (rank === "S" || rank === "A") {
+    const invitationDiv = document.createElement('div');
+    invitationDiv.className = 'invitation-message';
+    invitationDiv.innerHTML = `
+      <h3>🎊 おめでとうございます！ 🎊</h3>
+      <p>あなたの素晴らしいタイピングスキルに感銘を受けました。</p>
+      <p>私たちのチームであなたの才能を活かしませんか？</p>
+      <p>以下のリンクから、私たちの採用情報をご覧いただけます：</p>
+      <a href="https://example.com/join-us" class="invitation-link" target="_blank">採用情報を見る</a>
+      <p class="invitation-note">※このオファーは特別なスキルを持つ方だけに表示されています</p>
+    `;
+    
+    // 最終結果の前に挿入
+    finalResult.appendChild(invitationDiv);
+  }
+  
+  // 最終結果を表示
+  finalResult.style.display = "block";
+  
+  // 時間切れ音声フィードバック
+  playTimeupFeedback();
+}
