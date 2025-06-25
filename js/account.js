@@ -41,11 +41,26 @@ class AccountManager {
     
     async checkAuthStatus() {
         try {
+            // APIクライアントの初期化を待つ
+            if (!window.apiClient) {
+                await new Promise(resolve => {
+                    const checkInterval = setInterval(() => {
+                        if (window.apiClient) {
+                            clearInterval(checkInterval);
+                            resolve();
+                        }
+                    }, 100);
+                });
+            }
+            
+            // ログイン状態をチェック
             if (window.apiClient && window.apiClient.isLoggedIn()) {
                 this.currentUser = window.apiClient.currentUser;
+                console.log('アカウントページ: ログイン済みユーザー', this.currentUser);
                 await this.loadAccountData();
                 this.showAccountContent();
             } else {
+                console.log('アカウントページ: ログインが必要');
                 this.showLoginRequired();
             }
         } catch (error) {

@@ -130,6 +130,7 @@ h1 {
   padding: 24px;
   background: white;
   border: 1px solid #e2e8f0;
+  border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -182,6 +183,7 @@ h1 {
 .btn-primary, .btn-secondary {
   padding: 16px 32px;
   border: none;
+  border-radius: 12px;
   font-size: 16px;
   font-weight: 600;
   font-family: inherit;
@@ -225,6 +227,7 @@ input[type="text"] {
   font-size: 18px;
   padding: 20px 24px;
   border: 2px solid #e2e8f0;
+  border-radius: 12px;
   background: #ffffff;
   color: #1e293b;
   margin-bottom: 24px;
@@ -549,6 +552,7 @@ input::placeholder {
   color: #64748b;
   cursor: pointer;
   padding: 4px;
+  border-radius: 4px;
   transition: background-color 0.2s ease;
 }
 
@@ -571,6 +575,7 @@ input::placeholder {
   width: 100%;
   padding: 12px 16px;
   border: 2px solid #e2e8f0;
+  border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.2s ease;
 }
@@ -608,6 +613,7 @@ input::placeholder {
   font-weight: 600;
   cursor: pointer;
   padding: 4px 8px;
+  border-radius: 4px;
   transition: background-color 0.2s ease;
 }
 
@@ -619,6 +625,7 @@ input::placeholder {
   background: #fef2f2;
   color: #dc2626;
   padding: 12px 16px;
+  border-radius: 8px;
   margin-top: 16px;
   font-size: 14px;
   border: 1px solid #fecaca;
@@ -636,6 +643,7 @@ input::placeholder {
   text-align: center;
   padding: 20px;
   background: #f8fafc;
+  border-radius: 12px;
   border: 1px solid #e2e8f0;
 }
 
@@ -687,6 +695,7 @@ input::placeholder {
   align-items: center;
   padding: 12px 16px;
   background: #f8fafc;
+  border-radius: 8px;
   margin-bottom: 8px;
   border: 1px solid #e2e8f0;
 }
@@ -705,6 +714,7 @@ input::placeholder {
 
 .game-rank {
   padding: 2px 8px;
+  border-radius: 4px;
   font-size: 12px;
   font-weight: 600;
 }
@@ -713,6 +723,70 @@ input::placeholder {
 .rank-a { background: #e5e7eb; color: #374151; }
 .rank-b { background: #d97706; color: white; }
 .rank-c { background: #6b7280; color: white; }
+
+/* 折りたたみ機能のスタイル */
+.collapsible-section {
+  margin-bottom: 1.5rem;
+}
+
+.collapsible-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px 8px 0 0;
+  transition: background-color 0.2s ease;
+}
+
+.collapsible-header:hover {
+  background: #f1f5f9;
+}
+
+.collapsible-section.collapsed .collapsible-header {
+  border-radius: 8px;
+}
+
+.collapsible-header h2,
+.collapsible-header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.toggle-btn {
+  background: #667eea;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toggle-btn:hover {
+  background: #5a67d8;
+  transform: scale(1.1);
+}
+
+.collapsible-content {
+  border: 1px solid #e2e8f0;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  background: white;
+}
+
+.collapsible-content > * {
+  margin: 0;
+}
 
 /* 使い方ページのスタイル */
 .how-to-section {

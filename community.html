@@ -63,16 +63,23 @@
       </div>
 
       <!-- 報酬センター -->
-      <div class="rewards-section" id="rewardsSection">
-        <h2>🎁 報酬センター</h2>
+      <div class="rewards-section collapsible-section" id="rewardsSection">
+        <div class="collapsible-header">
+          <h2>🎁 報酬センター</h2>
+        </div>
+        <div class="collapsible-content">
         <div class="rewards-container" id="rewardsContainer">
           <p class="no-rewards">現在、受け取り可能な報酬はありません</p>
+        </div>
         </div>
       </div>
 
       <!-- 求人情報 -->
-      <div class="job-offers-section" id="jobOffersSection">
-        <h2>💼 テレビ朝日からの求人情報</h2>
+      <div class="job-offers-section collapsible-section" id="jobOffersSection">
+        <div class="collapsible-header">
+          <h2>💼 テレビ朝日からの求人情報</h2>
+        </div>
+        <div class="collapsible-content">
         <div class="job-offers-container" id="jobOffersContainer">
           <p class="no-jobs">現在、あなたの条件に合う求人はありません</p>
           <div class="job-requirements">
@@ -85,11 +92,15 @@
             </ul>
           </div>
         </div>
+        </div>
       </div>
 
       <!-- コミュニティチャット -->
-      <div class="chat-section">
-        <h2>💬 コミュニティチャット</h2>
+      <div class="chat-section collapsible-section">
+        <div class="collapsible-header">
+          <h2>💬 コミュニティチャット</h2>
+        </div>
+        <div class="collapsible-content">
         
         <!-- チャットメッセージ表示エリア -->
         <div class="chat-messages" id="chatMessages">
@@ -119,11 +130,15 @@
           <p>チャットに参加するにはログインが必要です</p>
           <button id="loginPromptBtn" class="btn-primary">ログイン</button>
         </div>
+        </div>
       </div>
 
       <!-- レベル情報説明 -->
-      <div class="level-info-section">
-        <h2>📊 レベルシステム</h2>
+      <div class="level-info-section collapsible-section">
+        <div class="collapsible-header">
+          <h2>📊 レベルシステム</h2>
+        </div>
+        <div class="collapsible-content">
         <div class="level-explanation">
           <div class="level-item">
             <h4>🌟 経験値の獲得方法</h4>
@@ -143,6 +158,7 @@
               <li>高ランク達成: 特別実績バッジ</li>
             </ul>
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -208,6 +224,7 @@
 
   <script src="js/api-client.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/collapsible.js"></script>
   <script>
     // APIクライアントと認証マネージャーの初期化
     document.addEventListener('DOMContentLoaded', async () => {
