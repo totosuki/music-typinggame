@@ -3,75 +3,129 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>音声タイピングゲーム</title>
+  <title>Voice Typing - 音声タイピングゲーム</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" href="https://developer.apple.com/assets/elements/icons/sf-pro-display/SF-Pro-Display-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://developer.apple.com/assets/elements/icons/sf-pro-display/SF-Pro-Display-Medium.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <h1>Voice Typing</h1>
+  <!-- ナビゲーションバー -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="logo-text">Voice Typing</span>
+      </div>
+      <div class="nav-menu">
+        <a href="#game" class="nav-link active">ゲーム</a>
+        <a href="#about" class="nav-link">使い方</a>
+        <a href="#stats" class="nav-link">統計</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- メインコンテンツ -->
+  <main class="main-content">
+    <section class="game-section" id="game">
+      <div class="game-container">
+        <h1>音声タイピングゲーム</h1>
       
-      <!-- ゲームコントロール -->
-      <div class="game-controls">
-        <div class="control-group">
-          <label for="time-select">制限時間:</label>
-          <select id="time-select">
-            <option value="30">30秒</option>
-            <option value="60" selected>1分</option>
-            <option value="120">2分</option>
-            <option value="180">3分</option>
-            <option value="300">5分</option>
-          </select>
+        
+        <!-- ゲーム状態表示 -->
+        <div class="game-status">
+          <div class="status-item">
+            <span class="status-label">スコア</span>
+            <span class="status-value" id="score">0</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">残り時間</span>
+            <span class="status-value" id="time-remaining">60</span>
+          </div>
         </div>
-        <div class="control-group">
-          <label for="difficulty-select">難易度:</label>
-          <select id="difficulty-select">
-            <option value="easy">初級</option>
-            <option value="normal" selected>中級</option>
-            <option value="hard">上級</option>
-          </select>
+        
+        <div class="button-group">
+          <button id="startBtn" class="btn-primary">🚀 ゲーム開始</button>
+          <button id="speakBtn" class="btn-secondary" disabled>🔊 もう一度聞く</button>
         </div>
-        <div id="time-display">残り時間: 60秒</div>
-      </div>
+        
+        <input type="text" id="userInput" placeholder="聞こえた文章を入力してください..." disabled />
+        <div class="result" id="result"></div>
       
-      <!-- 文章タイマー -->
-      <div id="sentence-timer" class="sentence-timer" style="display: none;">
-        <span>文章の制限時間: <span id="sentence-time-remaining">0</span>秒</span>
-      </div>
-      
-      <div class="button-group">
-        <button id="startBtn">🚀 スタート</button>
-        <button id="speakBtn" disabled>🔊 再生</button>
-      </div>
-      
-      <input type="text" id="userInput" placeholder="聞こえた文章を入力..." disabled />
-      <div class="result" id="result"></div>
-      <div class="score" id="score">スコア: 0</div>
-      
-      <!-- 最終結果表示 -->
-      <div class="final-result" id="finalResult" style="display: none;">
-        <h2>🎉 ゲーム終了！</h2>
-        <div id="rank-display" class="rank-display">
-          <span id="rank-badge" class="rank rank-s">S</span>
-          <p id="rank-message">素晴らしい！タイピングの達人ですね！</p>
+        <!-- 最終結果表示 -->
+        <div class="result-modal" id="finalResult" style="display: none;">
+          <div class="result-content">
+            <div class="result-header">
+              <h2>ゲーム結果</h2>
+              <div class="rank-display">
+                <span id="rank-badge" class="rank rank-s">S</span>
+                <p id="rank-message">素晴らしい！タイピングの達人ですね！</p>
+              </div>
+            </div>
+            
+            <!-- スコア統計 -->
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-value" id="correct-count">0</div>
+                <div class="stat-label">正解数</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="total-chars">0</div>
+                <div class="stat-label">総文字数</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="wpm-display">0</div>
+                <div class="stat-label">文字/分</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="accuracy-display">0%</div>
+                <div class="stat-label">正確率</div>
+              </div>
+            </div>
+            
+            <!-- 苦手キー分析 -->
+            <div class="weak-keys-analysis" id="weak-keys-section">
+              <h3>苦手キー分析</h3>
+              <div class="weak-keys-container" id="weak-keys-list">
+                <!-- JavaScript で動的に生成 -->
+              </div>
+            </div>
+            
+            <div class="result-actions">
+              <button id="restartBtn" class="btn-primary">もう一度プレイ</button>
+            </div>
+          </div>
         </div>
-        <p id="finalScore"></p>
-        <button id="restartBtn">もう一度プレイ</button>
       </div>
-      
-      <!-- 操作説明 -->
-      <div class="instructions" id="instructions">
-        <div class="instructions-box">
-          <p>【操作方法】</p>
-          <ul>
-            <li>Enterキー: ゲーム開始 / 回答送信</li>
-            <li>Escキー: タイトル画面に戻る</li>
-          </ul>
+    </section>
+  </main>
+  <!-- 操作説明セクション -->
+  <section class="instructions-section" id="about">
+    <div class="instructions-container">
+      <h2>使い方</h2>
+      <div class="instructions-grid">
+        <div class="instruction-item">
+          <div class="instruction-icon">🎯</div>
+          <h3>ゲーム開始</h3>
+          <p>「ゲーム開始」ボタンをクリックするか、Enterキーを押してゲームを開始します。</p>
+        </div>
+        <div class="instruction-item">
+          <div class="instruction-icon">🎧</div>
+          <h3>音声を聞く</h3>
+          <p>読み上げられた日本語の文章を注意深く聞いてください。</p>
+        </div>
+        <div class="instruction-item">
+          <div class="instruction-icon">⌨️</div>
+          <h3>タイピング</h3>
+          <p>聞こえた文章を正確に入力し、Enterキーで回答を送信します。</p>
+        </div>
+        <div class="instruction-item">
+          <div class="instruction-icon">📊</div>
+          <h3>結果確認</h3>
+          <p>ゲーム終了後、WPMや正確率、苦手キーなどの詳細な分析結果を確認できます。</p>
         </div>
       </div>
     </div>
-  </div>
+  </section>
+
   <script src="script.js"></script>
 </body>
 </html>
