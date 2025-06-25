@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>コミュニティ - Voice Typing 音声タイピングゲーム</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="community.css" />
+</head>
+<body>
+  <!-- ナビゲーションバー -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="/" class="logo-text">Voice Typing</a>
+      </div>
+      <div class="nav-menu">
+        <a href="/" class="nav-link">ゲーム</a>
+        <a href="/how-to-use.html" class="nav-link">使い方</a>
+        <a href="/community.html" class="nav-link active">コミュニティ</a>
+        <a href="/account.html" class="nav-link">アカウント</a>
+        <div class="auth-menu" id="authMenu">
+          <button id="loginBtn" class="nav-link auth-btn">ログイン</button>
+          <div id="userMenu" class="user-menu" style="display: none;">
+            <span id="usernameDisplay" class="username-display"></span>
+            <button id="logoutBtn" class="nav-link auth-btn">ログアウト</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- メインコンテンツ -->
+  <main class="main-content">
+    <div class="community-container">
+      <div class="community-header">
+        <h1>🏢 字幕制作コミュニティ</h1>
+        <p class="community-subtitle">テレビ朝日字幕制作チーム人材プール</p>
+      </div>
+
+      <!-- ユーザー情報パネル -->
+      <div class="user-panel" id="userPanel" style="display: none;">
+        <div class="user-info">
+          <div class="user-avatar">
+            <span id="userInitial">U</span>
+          </div>
+          <div class="user-details">
+            <h3 id="displayUsername">ユーザー名</h3>
+            <div class="user-stats">
+              <span class="level-badge" id="userLevel">Lv.1</span>
+              <span class="exp-info" id="userExp">0 / 100 EXP</span>
+            </div>
+            <div class="user-achievements">
+              <span class="wpm-badge" id="userWPM">0 文字/分</span>
+              <span class="accuracy-badge" id="userAccuracy">0%</span>
+              <span class="days-badge" id="userDays">0日連続</span>
+            </div>
+          </div>
+        </div>
+        <div class="professional-status" id="professionalStatus" style="display: none;">
+          <span class="pro-badge">🎖️ プロ認定</span>
+        </div>
+      </div>
+
+      <!-- 報酬センター -->
+      <div class="rewards-section" id="rewardsSection">
+        <h2>🎁 報酬センター</h2>
+        <div class="rewards-container" id="rewardsContainer">
+          <p class="no-rewards">現在、受け取り可能な報酬はありません</p>
+        </div>
+      </div>
+
+      <!-- 求人情報 -->
+      <div class="job-offers-section" id="jobOffersSection">
+        <h2>💼 テレビ朝日からの求人情報</h2>
+        <div class="job-offers-container" id="jobOffersContainer">
+          <p class="no-jobs">現在、あなたの条件に合う求人はありません</p>
+          <div class="job-requirements">
+            <h4>📋 応募資格の目安</h4>
+            <ul>
+              <li>レベル15以上</li>
+              <li>最高WMP 120文字/分以上</li>
+              <li>最高正確率 95%以上</li>
+              <li>継続的な練習による実力向上</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- コミュニティチャット -->
+      <div class="chat-section">
+        <h2>💬 コミュニティチャット</h2>
+        
+        <!-- チャットメッセージ表示エリア -->
+        <div class="chat-messages" id="chatMessages">
+          <div class="loading-messages">メッセージを読み込み中...</div>
+        </div>
+
+        <!-- メッセージ入力エリア -->
+        <div class="chat-input-section" id="chatInputSection" style="display: none;">
+          <div class="chat-input-container">
+            <textarea 
+              id="messageInput" 
+              placeholder="メッセージを入力してください..."
+              maxlength="500"
+              rows="3"></textarea>
+            <button id="sendMessageBtn" class="btn-primary">送信</button>
+          </div>
+          <div class="chat-rules">
+            <small>
+              ⚠️ チャットルール: 建設的で敬意のあるコミュニケーションを心がけてください。
+              不適切な内容は削除される場合があります。
+            </small>
+          </div>
+        </div>
+
+        <!-- ログインが必要な場合の表示 -->
+        <div class="login-required" id="loginRequired">
+          <p>チャットに参加するにはログインが必要です</p>
+          <button id="loginPromptBtn" class="btn-primary">ログイン</button>
+        </div>
+      </div>
+
+      <!-- レベル情報説明 -->
+      <div class="level-info-section">
+        <h2>📊 レベルシステム</h2>
+        <div class="level-explanation">
+          <div class="level-item">
+            <h4>🌟 経験値の獲得方法</h4>
+            <ul>
+              <li>ゲームプレイ: スコア × 10 EXP</li>
+              <li>WPMボーナス: WPM × 2 EXP</li>
+              <li>正確率ボーナス: 正確率 × 3 EXP</li>
+              <li>ランクボーナス: S(×2.0) / A(×1.5) / B(×1.2) / C(×1.0)</li>
+            </ul>
+          </div>
+          <div class="level-item">
+            <h4>🏆 特別な報酬</h4>
+            <ul>
+              <li>レベル10: コミュニティチャット解放</li>
+              <li>レベル15: 求人情報へのアクセス</li>
+              <li>レベル20: プロ認定バッジ</li>
+              <li>高ランク達成: 特別実績バッジ</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ログイン/新規登録モーダル -->
+  <div class="auth-modal" id="authModal" style="display: none;">
+    <div class="auth-content">
+      <div class="auth-header">
+        <h2 id="authTitle">ログイン</h2>
+        <button class="close-btn" id="closeAuthModal">&times;</button>
+      </div>
+      <form id="authForm">
+        <div class="form-group">
+          <label for="authUsername">ユーザー名</label>
+          <input type="text" id="authUsername" required placeholder="ユーザー名を入力">
+        </div>
+        <div class="form-group">
+          <label for="authPassword">パスワード</label>
+          <input type="password" id="authPassword" required placeholder="パスワードを入力">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="authSubmitBtn">ログイン</button>
+        </div>
+        <div class="auth-switch">
+          <p id="authSwitchText">アカウントをお持ちでない方は</p>
+          <button type="button" class="auth-switch-btn" id="authSwitchBtn">新規登録</button>
+        </div>
+      </form>
+      <div id="authError" class="auth-error" style="display: none;"></div>
+    </div>
+  </div>
+
+  <!-- 統計表示モーダル -->
+  <div class="stats-modal" id="statsModal" style="display: none;">
+    <div class="stats-content">
+      <div class="stats-header">
+        <h2>あなたの統計</h2>
+        <button class="close-btn" id="closeStatsModal">&times;</button>
+      </div>
+      <div id="userStatsContent">
+        <div class="stats-overview">
+          <div class="stat-item">
+            <span class="stat-number" id="totalGamesCount">0</span>
+            <span class="stat-desc">総ゲーム数</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="bestWPMCount">0</span>
+            <span class="stat-desc">最高WPM</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="bestAccuracyCount">0%</span>
+            <span class="stat-desc">最高正確率</span>
+          </div>
+        </div>
+        <div class="recent-games">
+          <h3>最近のゲーム</h3>
+          <div id="recentGamesList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // APIクライアントと認証マネージャーの初期化
+    document.addEventListener('DOMContentLoaded', async () => {
+        window.apiClient = new APIClient();
+        await window.apiClient.init();
+        window.authManager = new AuthManager();
+        await window.authManager.init();
+    });
+  </script>
+  <script src="js/community.js"></script>
+</body>
+</html>

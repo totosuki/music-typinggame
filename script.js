@@ -296,6 +296,135 @@ class GameStats {
 }
 
 // ================================
+// API クライアント
+// ================================
+class APIClient {
+    constructor() {
+        this.baseURL = '';  // 同じドメインで動作
+        this.token = localStorage.getItem('access_token');
+        this.currentUser = null;
+        this.init();
+    }
+
+    async init() {
+        if (this.token) {
+            try {
+                this.currentUser = await this.getCurrentUser();
+            } catch (error) {
+                console.log('トークンが無効です:', error);
+                this.logout();
+            }
+        }
+    }
+
+    getAuthHeaders() {
+        if (!this.token) {
+            throw new Error('認証が必要です');
+        }
+        return {
+            'Authorization': `Bearer ${this.token}`,
+            'Content-Type': 'application/json'
+        };
+    }
+
+    async register(username, password) {
+        const response = await fetch(`${this.baseURL}/api/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.detail || 'アカウント作成に失敗しました');
+        }
+
+        const data = await response.json();
+        this.token = data.access_token;
+        localStorage.setItem('access_token', this.token);
+        this.currentUser = await this.getCurrentUser();
+        return this.currentUser;
+    }
+
+    async login(username, password) {
+        const response = await fetch(`${this.baseURL}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.detail || 'ログインに失敗しました');
+        }
+
+        const data = await response.json();
+        this.token = data.access_token;
+        localStorage.setItem('access_token', this.token);
+        this.currentUser = await this.getCurrentUser();
+        return this.currentUser;
+    }
+
+    logout() {
+        this.token = null;
+        this.currentUser = null;
+        localStorage.removeItem('access_token');
+    }
+
+    async getCurrentUser() {
+        const response = await fetch(`${this.baseURL}/api/auth/me`, {
+            headers: this.getAuthHeaders()
+        });
+
+        if (!response.ok) {
+            throw new Error('ユーザー情報の取得に失敗しました');
+        }
+
+        return await response.json();
+    }
+
+    isLoggedIn() {
+        return this.token !== null && this.currentUser !== null;
+    }
+
+    async submitGameResult(gameResult) {
+        const response = await fetch(`${this.baseURL}/api/game/submit-result`, {
+            method: 'POST',
+            headers: this.getAuthHeaders(),
+            body: JSON.stringify(gameResult)
+        });
+
+        if (!response.ok) {
+            throw new Error('ゲーム結果の保存に失敗しました');
+        }
+
+        return await response.json();
+    }
+
+    async getUserStats() {
+        const response = await fetch(`${this.baseURL}/api/stats/user`, {
+            headers: this.getAuthHeaders()
+        });
+
+        if (!response.ok) {
+            throw new Error('統計データの取得に失敗しました');
+        }
+
+        return await response.json();
+    }
+
+    async getLeaderboard() {
+        const response = await fetch(`${this.baseURL}/api/stats/leaderboard`);
+
+        if (!response.ok) {
+            throw new Error('リーダーボードの取得に失敗しました');
+        }
+
+        return await response.json();
+    }
+}
+
+// ================================
 // DOM要素管理クラス
 // ================================
 class DOMElements {
@@ -466,11 +595,23 @@ class UIManager {
     }
 
     static showResult(stats, score, timeLimit, difficulty) {
+        console.log("=== showResult 開始 ===");
+        console.log("引数:", { stats, score, timeLimit, difficulty });
+        
         const rank = RankManager.calculateRank(score, timeLimit, difficulty);
+        console.log("計算されたランク:", rank);
+        
         const rankMessage = RankManager.getRankMessage(rank);
+        console.log("ランクメッセージ:", rankMessage);
+        
         const wpm = stats.calculateWPM();
+        console.log("計算されたWPM:", wpm);
+        
         const accuracy = stats.calculateAccuracy();
+        console.log("計算された正確率:", accuracy);
+        
         const weakKeys = stats.analyzeWeakKeys();
+        console.log("苦手キー:", weakKeys);
 
         console.log("ゲーム統計データ:", stats);
         console.log("WPM:", wpm, "正確率:", accuracy, "苦手キー:", weakKeys);
@@ -492,8 +633,38 @@ class UIManager {
         this.displayWeakKeys(weakKeys);
         this.showInvitationIfEligible(rank);
         
+        // ログインしている場合、APIに統計を送信（非同期で実行、エラーでも続行）
+        if (apiClient && apiClient.isLoggedIn()) {
+            const gameResult = {
+                score: score,
+                wpm: wpm,
+                accuracy: accuracy,
+                total_characters: stats.totalCharacters,
+                correct_characters: stats.correctCharacters,
+                rank: rank,
+                weak_keys: weakKeys
+            };
+            
+            console.log('統計をAPIに送信中:', gameResult);
+            
+            // 非同期で送信（UI表示をブロックしない）
+            apiClient.submitGameResult(gameResult)
+                .then(result => {
+                    console.log('統計の保存に成功しました:', result);
+                })
+                .catch(error => {
+                    console.error('統計の保存に失敗しました:', error);
+                });
+        }
+        
+        console.log("=== リザルト表示を実行 ===");
+        console.log("finalResult 要素:", dom.finalResult);
+        
         dom.finalResult.style.display = "flex";
+        console.log("finalResult.style.display を flex に設定");
+        
         SpeechManager.playFeedback('timeup');
+        console.log("=== showResult 完了 ===");
     }
 
     static displayWeakKeys(weakKeys) {
@@ -693,6 +864,10 @@ class VoiceTypingGame {
     }
 
     endGame() {
+        console.log("=== endGame 開始 ===");
+        console.log("ゲーム状態:", this.gameState);
+        console.log("ゲーム統計:", this.gameStats);
+        
         clearInterval(this.gameState.timer);
         clearInterval(this.gameState.sentenceTimer);
         this.gameState.isGameActive = false;
@@ -710,12 +885,22 @@ class VoiceTypingGame {
         dom.speakBtn.style.display = "none";
         dom.startBtn.style.display = "none";
         
+        console.log("UIManager.showResult を呼び出します");
+        console.log("引数:", {
+            stats: this.gameStats,
+            score: this.gameState.score,
+            timeLimit: this.gameState.timeLimit,
+            difficulty: this.gameState.currentDifficulty
+        });
+        
         UIManager.showResult(
             this.gameStats, 
             this.gameState.score, 
             this.gameState.timeLimit, 
             this.gameState.currentDifficulty
         );
+        
+        console.log("=== endGame 完了 ===");
     }
 
     returnToTitle() {
@@ -779,11 +964,17 @@ class VoiceTypingGame {
 // ================================
 let game;
 let dom;
+let apiClient;
 
 // DOMが読み込まれたら初期化
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     dom = new DOMElements();
+    apiClient = new APIClient();
+    await apiClient.init();
     game = new VoiceTypingGame();
+    
+    // 認証状態に応じてUIを更新
+    updateAuthUI();
     
     // イベントリスナーの設定
     dom.startBtn.addEventListener("click", () => game.startGame());
@@ -802,4 +993,166 @@ document.addEventListener("DOMContentLoaded", () => {
             game.handleAnswer(answer);
         }
     });
+    
+    // 認証関連のイベントリスナー
+    setupAuthEventListeners();
 });
+
+// 認証UIの更新
+function updateAuthUI() {
+    const loginBtn = document.getElementById('loginBtn');
+    const userMenu = document.getElementById('userMenu');
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    
+    if (apiClient.isLoggedIn()) {
+        loginBtn.style.display = 'none';
+        userMenu.style.display = 'flex';
+        usernameDisplay.textContent = apiClient.currentUser.username;
+    } else {
+        loginBtn.style.display = 'block';
+        userMenu.style.display = 'none';
+    }
+}
+
+// 認証状態の管理
+let isLoginMode = true;
+
+// 認証イベントリスナーの設定
+function setupAuthEventListeners() {
+    
+    // ログインボタン
+    document.getElementById('loginBtn').addEventListener('click', () => {
+        document.getElementById('authModal').style.display = 'flex';
+        isLoginMode = true;
+        updateAuthModal();
+    });
+    
+    // ログアウトボタン
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        apiClient.logout();
+        updateAuthUI();
+    });
+    
+    // 統計ボタン
+    document.querySelector('a[href="#stats"]').addEventListener('click', async (e) => {
+        e.preventDefault();
+        if (apiClient.isLoggedIn()) {
+            await showUserStats();
+        } else {
+            alert('統計を表示するにはログインが必要です');
+        }
+    });
+    
+    // モーダル閉じるボタン
+    document.getElementById('closeAuthModal').addEventListener('click', () => {
+        document.getElementById('authModal').style.display = 'none';
+    });
+    
+    document.getElementById('closeStatsModal').addEventListener('click', () => {
+        document.getElementById('statsModal').style.display = 'none';
+    });
+    
+    // フォーム切り替え
+    document.getElementById('authSwitchBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('フォーム切り替えボタンがクリックされました。現在のモード:', isLoginMode ? 'ログイン' : '新規登録');
+        isLoginMode = !isLoginMode;
+        console.log('切り替え後のモード:', isLoginMode ? 'ログイン' : '新規登録');
+        updateAuthModal();
+    });
+    
+    // 認証フォーム送信
+    document.getElementById('authForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const username = document.getElementById('authUsername').value;
+        const password = document.getElementById('authPassword').value;
+        const errorDiv = document.getElementById('authError');
+        
+        try {
+            if (isLoginMode) {
+                await apiClient.login(username, password);
+            } else {
+                await apiClient.register(username, password);
+            }
+            
+            updateAuthUI();
+            document.getElementById('authModal').style.display = 'none';
+            document.getElementById('authForm').reset();
+            errorDiv.style.display = 'none';
+            
+        } catch (error) {
+            errorDiv.textContent = error.message;
+            errorDiv.style.display = 'block';
+        }
+    });
+}
+
+// 認証モーダルの更新
+function updateAuthModal() {
+    console.log('updateAuthModal が呼ばれました。isLoginMode:', isLoginMode);
+    
+    const title = document.getElementById('authTitle');
+    const submitBtn = document.getElementById('authSubmitBtn');
+    const switchText = document.getElementById('authSwitchText');
+    const switchBtn = document.getElementById('authSwitchBtn');
+    
+    console.log('DOM要素の取得結果:', { title, submitBtn, switchText, switchBtn });
+    
+    if (isLoginMode) {
+        title.textContent = 'ログイン';
+        submitBtn.textContent = 'ログイン';
+        switchText.textContent = 'アカウントをお持ちでない方は';
+        switchBtn.textContent = '新規登録';
+    } else {
+        title.textContent = '新規登録';
+        submitBtn.textContent = '新規登録';
+        switchText.textContent = '既にアカウントをお持ちの方は';
+        switchBtn.textContent = 'ログイン';
+    }
+    
+    console.log('モーダル更新完了');
+}
+
+// ユーザー統計の表示
+async function showUserStats() {
+    try {
+        const stats = await apiClient.getUserStats();
+        
+        document.getElementById('totalGamesCount').textContent = stats.total_games;
+        document.getElementById('bestWPMCount').textContent = Math.round(stats.best_wpm);
+        document.getElementById('bestAccuracyCount').textContent = Math.round(stats.best_accuracy) + '%';
+        
+        const recentGamesList = document.getElementById('recentGamesList');
+        recentGamesList.innerHTML = '';
+        
+        if (stats.recent_games.length === 0) {
+            recentGamesList.innerHTML = '<p style="text-align: center; color: #64748b;">まだゲームをプレイしていません</p>';
+        } else {
+            stats.recent_games.forEach(game => {
+                const gameItem = document.createElement('div');
+                gameItem.className = 'game-history-item';
+                
+                const date = new Date(game.date).toLocaleDateString('ja-JP');
+                
+                gameItem.innerHTML = `
+                    <div class="game-date">${date}</div>
+                    <div class="game-stats">
+                        <span>スコア: ${game.score}</span>
+                        <span>WPM: ${Math.round(game.wpm)}</span>
+                        <span>正確率: ${Math.round(game.accuracy)}%</span>
+                        <span class="game-rank rank-${game.rank.toLowerCase()}">${game.rank}</span>
+                    </div>
+                `;
+                
+                recentGamesList.appendChild(gameItem);
+            });
+        }
+        
+        document.getElementById('statsModal').style.display = 'flex';
+        
+    } catch (error) {
+        console.error('統計の取得に失敗しました:', error);
+        alert('統計の取得に失敗しました');
+    }
+}

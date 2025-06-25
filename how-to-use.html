@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>使い方 - Voice Typing 音声タイピングゲーム</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ナビゲーションバー -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="/" class="logo-text">Voice Typing</a>
+      </div>
+      <div class="nav-menu">
+        <a href="/" class="nav-link">ゲーム</a>
+        <a href="/how-to-use.html" class="nav-link active">使い方</a>
+        <a href="/community.html" class="nav-link">コミュニティ</a>
+        <a href="/account.html" class="nav-link">アカウント</a>
+        <div class="auth-menu" id="authMenu">
+          <button id="loginBtn" class="nav-link auth-btn">ログイン</button>
+          <div id="userMenu" class="user-menu" style="display: none;">
+            <span id="usernameDisplay" class="username-display"></span>
+            <button id="logoutBtn" class="nav-link auth-btn">ログアウト</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- メインコンテンツ -->
+  <main class="main-content">
+    <!-- 使い方セクション -->
+    <section class="how-to-section">
+      <div class="container">
+        <h1>Voice Typing の使い方</h1>
+        
+        <!-- 基本的な使い方 -->
+        <div class="section-card">
+          <h2>🎯 基本的な使い方</h2>
+          <div class="instructions-grid">
+            <div class="instruction-item">
+              <div class="instruction-icon">🎮</div>
+              <h3>1. ゲーム開始</h3>
+              <p>「ゲーム開始」ボタンをクリックするか、Enterキーを押してゲームを開始します。制限時間は60秒です。</p>
+            </div>
+            <div class="instruction-item">
+              <div class="instruction-icon">🎧</div>
+              <h3>2. 音声を聞く</h3>
+              <p>自動的に日本語の文章が読み上げられます。聞き取りにくい場合は「もう一度聞く」ボタンを押してください。</p>
+            </div>
+            <div class="instruction-item">
+              <div class="instruction-icon">⌨️</div>
+              <h3>3. タイピング</h3>
+              <p>聞こえた文章を正確に入力し、Enterキーで回答を送信します。正解すると次の文章に進みます。</p>
+            </div>
+            <div class="instruction-item">
+              <div class="instruction-icon">📊</div>
+              <h3>4. 結果確認</h3>
+              <p>ゲーム終了後、スコア、WPM（文字/分）、正確率、苦手キーなどの詳細な分析結果を確認できます。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ランクシステム -->
+        <div class="section-card">
+          <h2>🏆 ランクシステム</h2>
+          <div class="rank-explanation">
+            <div class="rank-item">
+              <div class="rank-badge rank-s">S</div>
+              <div class="rank-desc">
+                <h4>Sランク</h4>
+                <p>素晴らしい！タイピングの達人レベルです。</p>
+              </div>
+            </div>
+            <div class="rank-item">
+              <div class="rank-badge rank-a">A</div>
+              <div class="rank-desc">
+                <h4>Aランク</h4>
+                <p>Excellent! 素晴らしいタイピング力です。</p>
+              </div>
+            </div>
+            <div class="rank-item">
+              <div class="rank-badge rank-b">B</div>
+              <div class="rank-desc">
+                <h4>Bランク</h4>
+                <p>よくできました！もう少し練習を続けましょう。</p>
+              </div>
+            </div>
+            <div class="rank-item">
+              <div class="rank-badge rank-c">C</div>
+              <div class="rank-desc">
+                <h4>Cランク</h4>
+                <p>タイピングの基本を身につけましょう。毎日の練習が大切です。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- アカウント機能 -->
+        <div class="section-card">
+          <h2>👤 アカウント機能</h2>
+          <div class="feature-list">
+            <div class="feature-item">
+              <h4>📈 統計データの保存</h4>
+              <p>アカウントを作成すると、ゲームの成績が自動的に保存され、過去の記録と比較できます。</p>
+            </div>
+            <div class="feature-item">
+              <h4>🎯 個人記録の追跡</h4>
+              <p>最高WPM、最高正確率、平均スコアなどの個人記録を追跡できます。</p>
+            </div>
+            <div class="feature-item">
+              <h4>📜 ゲーム履歴</h4>
+              <p>最近のゲーム結果を確認して、上達の軌跡を追うことができます。</p>
+            </div>
+            <div class="feature-item">
+              <h4>🏅 特別な招待</h4>
+              <p>SランクやAランクを獲得すると、特別な招待メッセージが表示されることがあります。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 統計データの見方 -->
+        <div class="section-card">
+          <h2>📊 統計データの見方</h2>
+          <div class="stats-explanation">
+            <div class="stat-explanation">
+              <h4>正解数</h4>
+              <p>ゲーム中に正しく入力できた文章の数です。</p>
+            </div>
+            <div class="stat-explanation">
+              <h4>総文字数</h4>
+              <p>ゲーム中に入力した文字の総数です。</p>
+            </div>
+            <div class="stat-explanation">
+              <h4>文字/分 (WPM)</h4>
+              <p>1分間あたりに正確に入力できる文字数です。日本語タイピングの指標として使用されます。</p>
+            </div>
+            <div class="stat-explanation">
+              <h4>正確率</h4>
+              <p>正しく入力できた文字の割合です。高い正確率を維持することが重要です。</p>
+            </div>
+            <div class="stat-explanation">
+              <h4>苦手キー分析</h4>
+              <p>エラー率が30%以上のキーを特定し、練習すべきキーを表示します。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ショートカットキー -->
+        <div class="section-card">
+          <h2>⌨️ ショートカットキー</h2>
+          <div class="shortcut-list">
+            <div class="shortcut-item">
+              <kbd>Enter</kbd>
+              <span>ゲーム開始 / 回答送信</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>Esc</kbd>
+              <span>ゲームを中断してタイトルに戻る</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- トラブルシューティング -->
+        <div class="section-card">
+          <h2>🔧 トラブルシューティング</h2>
+          <div class="troubleshooting">
+            <div class="issue-item">
+              <h4>音声が聞こえない</h4>
+              <p>ブラウザの音量設定を確認し、音声合成機能が有効になっていることを確認してください。「もう一度聞く」ボタンを試してみてください。</p>
+            </div>
+            <div class="issue-item">
+              <h4>文字入力ができない</h4>
+              <p>ゲームが開始されていることを確認してください。ゲーム開始前や終了後は入力欄が無効になります。</p>
+            </div>
+            <div class="issue-item">
+              <h4>統計が保存されない</h4>
+              <p>アカウントにログインしているか確認してください。ログインしていない場合、統計データは保存されません。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ゲームに戻るボタン -->
+        <div class="back-to-game">
+          <a href="/" class="btn-primary">🎮 ゲームに戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ログイン/新規登録モーダル -->
+  <div class="auth-modal" id="authModal" style="display: none;">
+    <div class="auth-content">
+      <div class="auth-header">
+        <h2 id="authTitle">ログイン</h2>
+        <button class="close-btn" id="closeAuthModal">&times;</button>
+      </div>
+      <form id="authForm">
+        <div class="form-group">
+          <label for="authUsername">ユーザー名</label>
+          <input type="text" id="authUsername" required placeholder="ユーザー名を入力">
+        </div>
+        <div class="form-group">
+          <label for="authPassword">パスワード</label>
+          <input type="password" id="authPassword" required placeholder="パスワードを入力">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="authSubmitBtn">ログイン</button>
+        </div>
+        <div class="auth-switch">
+          <p id="authSwitchText">アカウントをお持ちでない方は</p>
+          <button type="button" class="auth-switch-btn" id="authSwitchBtn">新規登録</button>
+        </div>
+      </form>
+      <div id="authError" class="auth-error" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script src="js/api-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // APIクライアントと認証マネージャーの初期化
+    document.addEventListener('DOMContentLoaded', async () => {
+        window.apiClient = new APIClient();
+        await window.apiClient.init();
+        window.authManager = new AuthManager();
+        await window.authManager.init();
+    });
+  </script>
+</body>
+</html>

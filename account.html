@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>アカウント - Voice Typing 音声タイピングゲーム</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="account.css" />
+</head>
+<body>
+  <!-- ナビゲーションバー -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="/" class="logo-text">Voice Typing</a>
+      </div>
+      <div class="nav-menu">
+        <a href="/" class="nav-link">ゲーム</a>
+        <a href="/how-to-use.html" class="nav-link">使い方</a>
+        <a href="/community.html" class="nav-link">コミュニティ</a>
+        <a href="/account.html" class="nav-link active">アカウント</a>
+        <div class="auth-menu" id="authMenu">
+          <button id="loginBtn" class="nav-link auth-btn">ログイン</button>
+          <div id="userMenu" class="user-menu" style="display: none;">
+            <span id="usernameDisplay" class="username-display"></span>
+            <button id="logoutBtn" class="nav-link auth-btn">ログアウト</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- メインコンテンツ -->
+  <main class="main-content">
+    <div class="account-container">
+      <div class="account-header">
+        <h1>🎯 アカウント情報</h1>
+        <p class="account-subtitle">プロフィールと統計データ</p>
+      </div>
+
+      <!-- ログインが必要な場合の表示 -->
+      <div class="login-required" id="loginRequired">
+        <h2>アカウント情報を表示するにはログインが必要です</h2>
+        <button id="loginPromptBtn" class="btn-primary">ログイン</button>
+      </div>
+
+      <!-- アカウント情報セクション -->
+      <div class="account-content" id="accountContent" style="display: none;">
+        
+        <!-- ユーザープロフィール -->
+        <div class="profile-section">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <span id="profileInitial">U</span>
+            </div>
+            <div class="profile-info">
+              <h2 id="profileUsername">ユーザー名</h2>
+              <div class="profile-badges">
+                <span class="level-badge" id="profileLevel">Lv.1</span>
+                <span class="exp-badge" id="profileExp">0 / 100 EXP</span>
+                <span class="pro-badge" id="profileProBadge" style="display: none;">🎖️ プロ認定</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-stats">
+            <div class="stat-card">
+              <div class="stat-icon">📊</div>
+              <div class="stat-details">
+                <span class="stat-number" id="profileTotalPlayTime">0</span>
+                <span class="stat-label">総プレイ時間 (分)</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-details">
+                <span class="stat-number" id="profileBestWPM">0</span>
+                <span class="stat-label">最高WPM</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-details">
+                <span class="stat-number" id="profileBestAccuracy">0%</span>
+                <span class="stat-label">最高正確率</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🔥</div>
+              <div class="stat-details">
+                <span class="stat-number" id="profileConsecutiveDays">0</span>
+                <span class="stat-label">連続プレイ日数</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 統計セクション -->
+        <div class="stats-section">
+          <h2>📈 ゲーム統計</h2>
+          
+          <!-- 統計概要 -->
+          <div class="stats-overview">
+            <div class="overview-card">
+              <h3>総合データ</h3>
+              <div class="overview-stats">
+                <div class="overview-item">
+                  <span class="overview-number" id="totalGames">0</span>
+                  <span class="overview-label">総ゲーム数</span>
+                </div>
+                <div class="overview-item">
+                  <span class="overview-number" id="totalScore">0</span>
+                  <span class="overview-label">総スコア</span>
+                </div>
+                <div class="overview-item">
+                  <span class="overview-number" id="averageWPM">0</span>
+                  <span class="overview-label">平均WPM</span>
+                </div>
+                <div class="overview-item">
+                  <span class="overview-number" id="averageAccuracy">0%</span>
+                  <span class="overview-label">平均正確率</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 最近のゲーム履歴 -->
+          <div class="recent-games-section">
+            <h3>🎮 最近のゲーム履歴</h3>
+            <div class="games-container" id="recentGamesContainer">
+              <div class="loading-games">ゲーム履歴を読み込み中...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ログイン/新規登録モーダル -->
+  <div class="auth-modal" id="authModal" style="display: none;">
+    <div class="auth-content">
+      <div class="auth-header">
+        <h2 id="authTitle">ログイン</h2>
+        <button class="close-btn" id="closeAuthModal">&times;</button>
+      </div>
+      <form id="authForm">
+        <div class="form-group">
+          <label for="authUsername">ユーザー名</label>
+          <input type="text" id="authUsername" required placeholder="ユーザー名を入力">
+        </div>
+        <div class="form-group">
+          <label for="authPassword">パスワード</label>
+          <input type="password" id="authPassword" required placeholder="パスワードを入力">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="authSubmitBtn">ログイン</button>
+        </div>
+        <div class="auth-switch">
+          <p id="authSwitchText">アカウントをお持ちでない方は</p>
+          <button type="button" class="auth-switch-btn" id="authSwitchBtn">新規登録</button>
+        </div>
+      </form>
+      <div id="authError" class="auth-error" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script src="js/api-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // APIクライアントと認証マネージャーの初期化
+    document.addEventListener('DOMContentLoaded', async () => {
+        window.apiClient = new APIClient();
+        await window.apiClient.init();
+        window.authManager = new AuthManager();
+        await window.authManager.init();
+    });
+  </script>
+  <script src="js/account.js"></script>
+</body>
+</html>

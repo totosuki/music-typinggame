@@ -13,12 +13,20 @@
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo">
-        <span class="logo-text">Voice Typing</span>
+        <a href="#game" class="logo-text">Voice Typing</a>
       </div>
       <div class="nav-menu">
         <a href="#game" class="nav-link active">ゲーム</a>
-        <a href="#about" class="nav-link">使い方</a>
-        <a href="#stats" class="nav-link">統計</a>
+        <a href="/how-to-use.html" class="nav-link">使い方</a>
+        <a href="/community.html" class="nav-link">コミュニティ</a>
+        <a href="/account.html" class="nav-link">アカウント</a>
+        <div class="auth-menu" id="authMenu">
+          <button id="loginBtn" class="nav-link auth-btn">ログイン</button>
+          <div id="userMenu" class="user-menu" style="display: none;">
+            <span id="usernameDisplay" class="username-display"></span>
+            <button id="logoutBtn" class="nav-link auth-btn">ログアウト</button>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -97,35 +105,72 @@
       </div>
     </section>
   </main>
-  <!-- 操作説明セクション -->
-  <section class="instructions-section" id="about">
-    <div class="instructions-container">
-      <h2>使い方</h2>
-      <div class="instructions-grid">
-        <div class="instruction-item">
-          <div class="instruction-icon">🎯</div>
-          <h3>ゲーム開始</h3>
-          <p>「ゲーム開始」ボタンをクリックするか、Enterキーを押してゲームを開始します。</p>
+
+  <!-- ログイン/新規登録モーダル -->
+  <div class="auth-modal" id="authModal" style="display: none;">
+    <div class="auth-content">
+      <div class="auth-header">
+        <h2 id="authTitle">ログイン</h2>
+        <button class="close-btn" id="closeAuthModal">&times;</button>
+      </div>
+      <form id="authForm">
+        <div class="form-group">
+          <label for="authUsername">ユーザー名</label>
+          <input type="text" id="authUsername" required placeholder="ユーザー名を入力">
         </div>
-        <div class="instruction-item">
-          <div class="instruction-icon">🎧</div>
-          <h3>音声を聞く</h3>
-          <p>読み上げられた日本語の文章を注意深く聞いてください。</p>
+        <div class="form-group">
+          <label for="authPassword">パスワード</label>
+          <input type="password" id="authPassword" required placeholder="パスワードを入力">
         </div>
-        <div class="instruction-item">
-          <div class="instruction-icon">⌨️</div>
-          <h3>タイピング</h3>
-          <p>聞こえた文章を正確に入力し、Enterキーで回答を送信します。</p>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="authSubmitBtn">ログイン</button>
         </div>
-        <div class="instruction-item">
-          <div class="instruction-icon">📊</div>
-          <h3>結果確認</h3>
-          <p>ゲーム終了後、WPMや正確率、苦手キーなどの詳細な分析結果を確認できます。</p>
+        <div class="auth-switch">
+          <p id="authSwitchText">アカウントをお持ちでない方は</p>
+          <button type="button" class="auth-switch-btn" id="authSwitchBtn">新規登録</button>
+        </div>
+      </form>
+      <div id="authError" class="auth-error" style="display: none;"></div>
+    </div>
+  </div>
+
+  <!-- 統計表示モーダル -->
+  <div class="stats-modal" id="statsModal" style="display: none;">
+    <div class="stats-content">
+      <div class="stats-header">
+        <h2>あなたの統計</h2>
+        <button class="close-btn" id="closeStatsModal">&times;</button>
+      </div>
+      <div id="userStatsContent">
+        <div class="stats-overview">
+          <div class="stat-item">
+            <span class="stat-number" id="totalGamesCount">0</span>
+            <span class="stat-desc">総ゲーム数</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="bestWPMCount">0</span>
+            <span class="stat-desc">最高WPM</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="bestAccuracyCount">0%</span>
+            <span class="stat-desc">最高正確率</span>
+          </div>
+        </div>
+        <div class="recent-games">
+          <h3>最近のゲーム</h3>
+          <div id="recentGamesList"></div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <script src="script.js"></script>
+  <!-- JavaScript モジュール -->
+  <script src="js/config.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/game-logic.js"></script>
+  <script src="js/ui-manager.js"></script>
+  <script src="js/main-game.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

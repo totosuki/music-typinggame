@@ -1,0 +1,478 @@
+/* ================================
+   コミュニティページ専用スタイル
+   ================================ */
+
+.community-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.community-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.community-header h1 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+}
+
+.community-subtitle {
+    color: #666;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* ユーザー情報パネル */
+.user-panel {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.user-details h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+}
+
+.user-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.level-badge, .exp-info {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.user-achievements {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.wpm-badge, .accuracy-badge, .days-badge {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.professional-status {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.pro-badge {
+    background: linear-gradient(45deg, #f39c12, #e67e22);
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 1rem;
+    display: inline-block;
+}
+
+/* 報酬センター */
+.rewards-section, .job-offers-section, .chat-section, .level-info-section {
+    background: white;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f0f0f0;
+}
+
+.rewards-section h2, .job-offers-section h2, .chat-section h2, .level-info-section h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 0.5rem;
+}
+
+.rewards-container, .job-offers-container {
+    min-height: 120px;
+}
+
+.no-rewards, .no-jobs {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.reward-item, .job-item {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.reward-item:hover, .job-item:hover {
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+}
+
+.reward-header, .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.reward-title, .job-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.reward-type {
+    background: #667eea;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+}
+
+.reward-description, .job-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.claim-btn, .apply-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.claim-btn:hover, .apply-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* 求人情報 */
+.job-requirements {
+    background: #e8f4fd;
+    border: 1px solid #b3d9ff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.job-requirements h4 {
+    color: #0056b3;
+    margin-bottom: 1rem;
+}
+
+.job-requirements ul {
+    list-style: none;
+    padding: 0;
+}
+
+.job-requirements li {
+    padding: 0.5rem 0;
+    color: #333;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.job-requirements li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* チャット機能 */
+.chat-messages {
+    height: 400px;
+    overflow-y: auto;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #fafafa;
+}
+
+.loading-messages {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 2rem;
+}
+
+.message-item {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid #e9ecef;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.message-username {
+    font-weight: 600;
+    color: #667eea;
+}
+
+.message-level {
+    background: #f8f9fa;
+    color: #666;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
+.message-time {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.message-content {
+    color: #333;
+    line-height: 1.5;
+}
+
+.message-type-achievement .message-item {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    border-color: #ffc107;
+}
+
+.message-type-official .message-item {
+    background: linear-gradient(135deg, #d1ecf1, #b3e5fc);
+    border-color: #17a2b8;
+}
+
+.message-type-official .message-username {
+    color: #17a2b8;
+}
+
+.message-type-official .message-username:after {
+    content: " 🏢";
+}
+
+/* チャット入力 */
+.chat-input-section {
+    border-top: 2px solid #e9ecef;
+    padding-top: 1rem;
+}
+
+.chat-input-container {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+#messageInput {
+    flex: 1;
+    resize: vertical;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+#messageInput:focus {
+    border-color: #667eea;
+    outline: none;
+}
+
+#sendMessageBtn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#sendMessageBtn:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+}
+
+.chat-rules {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 6px;
+}
+
+.chat-rules small {
+    color: #856404;
+    line-height: 1.4;
+}
+
+/* ログイン必要表示 */
+.login-required {
+    text-align: center;
+    padding: 3rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 2px dashed #dee2e6;
+}
+
+.login-required p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+#loginPromptBtn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* レベル情報 */
+.level-explanation {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.level-item {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.level-item h4 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.level-item ul {
+    list-style: none;
+    padding: 0;
+}
+
+.level-item li {
+    padding: 0.5rem 0;
+    color: #555;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.level-item li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #667eea;
+    font-weight: bold;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .community-container {
+        padding: 1rem;
+    }
+    
+    .user-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .user-stats, .user-achievements {
+        justify-content: center;
+    }
+    
+    .chat-input-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #sendMessageBtn {
+        margin-top: 0.5rem;
+    }
+    
+    .message-type-selector {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .level-explanation {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .community-header h1 {
+        font-size: 2rem;
+    }
+    
+    .community-subtitle {
+        font-size: 1rem;
+    }
+    
+    .user-panel {
+        padding: 1.5rem;
+    }
+    
+    .rewards-section, .job-offers-section, .chat-section, .level-info-section {
+        padding: 1.5rem;
+    }
+    
+    .chat-messages {
+        height: 300px;
+    }
+}

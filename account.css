@@ -1,0 +1,353 @@
+/* ================================
+   アカウントページ専用スタイル
+   ================================ */
+
+.account-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.account-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.account-header h1 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+}
+
+.account-subtitle {
+    color: #666;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* ログイン必要表示 */
+.login-required {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border: 2px dashed #dee2e6;
+    margin: 2rem 0;
+}
+
+.login-required h2 {
+    color: #666;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+#loginPromptBtn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* プロフィールセクション */
+.profile-section {
+    background: white;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f0f0f0;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.profile-info h2 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 2rem;
+}
+
+.profile-badges {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.level-badge, .exp-badge, .pro-badge {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.level-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.exp-badge {
+    background: #f8f9fa;
+    color: #333;
+    border: 2px solid #e9ecef;
+}
+
+.pro-badge {
+    background: linear-gradient(45deg, #f39c12, #e67e22);
+    color: white;
+}
+
+/* プロフィール統計カード */
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.stat-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.3rem;
+}
+
+/* 統計セクション */
+.stats-section {
+    background: white;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f0f0f0;
+}
+
+.stats-section h2 {
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 0.5rem;
+}
+
+/* 統計概要 */
+.stats-overview {
+    margin-bottom: 3rem;
+}
+
+.overview-card {
+    background: #f8f9fa;
+    padding: 2rem;
+    border: 1px solid #e9ecef;
+}
+
+.overview-card h3 {
+    margin: 0 0 1.5rem 0;
+    color: #333;
+    font-size: 1.3rem;
+}
+
+.overview-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+}
+
+.overview-item {
+    text-align: center;
+}
+
+.overview-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #667eea;
+    line-height: 1;
+}
+
+.overview-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+/* 最近のゲーム履歴 */
+.recent-games-section h3 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+}
+
+.games-container {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #e9ecef;
+    background: #fafafa;
+}
+
+.loading-games {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 2rem;
+}
+
+.game-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: white;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.2s ease;
+}
+
+.game-item:hover {
+    background: #f8f9fa;
+}
+
+.game-item:last-child {
+    border-bottom: none;
+}
+
+.game-date {
+    font-size: 0.9rem;
+    color: #666;
+    min-width: 100px;
+}
+
+.game-details {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+}
+
+.game-stat {
+    text-align: center;
+}
+
+.game-stat-value {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.game-stat-label {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.game-rank {
+    padding: 0.4rem 0.8rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    min-width: 40px;
+    text-align: center;
+}
+
+.rank-s { background: #fbbf24; color: white; }
+.rank-a { background: #e5e7eb; color: #374151; }
+.rank-b { background: #d97706; color: white; }
+.rank-c { background: #6b7280; color: white; }
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .account-container {
+        padding: 1rem;
+    }
+    
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .profile-badges {
+        justify-content: center;
+    }
+    
+    .overview-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .game-item {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .game-details {
+        justify-content: space-around;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .account-header h1 {
+        font-size: 2rem;
+    }
+    
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .overview-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .game-details {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

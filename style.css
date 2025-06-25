@@ -40,6 +40,13 @@ body {
   font-weight: 700;
   color: #3b82f6;
   text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-logo .logo-text:hover {
+  color: #2563eb;
+  transform: scale(1.05);
 }
 
 .nav-menu {
@@ -52,34 +59,58 @@ body {
   text-decoration: none;
   font-weight: 500;
   padding: 8px 16px;
-  border-radius: 8px;
+  position: relative;
   transition: all 0.2s ease;
 }
 
 .nav-link:hover,
 .nav-link.active {
   color: #3b82f6;
-  background-color: #f1f5f9;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 2px;
+  background: #3b82f6;
+  animation: slideUnderline 0.3s ease forwards;
+}
+
+@keyframes slideUnderline {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 /* メインコンテンツ */
 .main-content {
   margin-top: 70px;
   min-height: calc(100vh - 70px);
+  padding: 2rem;
 }
 
 .game-section {
-  padding: 60px 24px;
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
 
 .game-container {
-  background: white;
-  border-radius: 16px;
-  padding: 48px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e2e8f0;
+  background: transparent;
+  padding: 2rem 0;
+  box-shadow: none;
+  border: none;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 h1 {
@@ -97,9 +128,9 @@ h1 {
   gap: 48px;
   margin-bottom: 40px;
   padding: 24px;
-  background: #f8fafc;
-  border-radius: 12px;
+  background: white;
   border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .status-item {
@@ -128,7 +159,6 @@ h1 {
   width: 100%;
   height: 8px;
   background: #e2e8f0;
-  border-radius: 4px;
   margin: 32px 0;
   overflow: hidden;
 }
@@ -138,7 +168,6 @@ h1 {
   width: 100%;
   background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
   transition: width 0.3s ease;
-  border-radius: 4px;
 }
 
 /* ボタン */
@@ -153,7 +182,6 @@ h1 {
 .btn-primary, .btn-secondary {
   padding: 16px 32px;
   border: none;
-  border-radius: 12px;
   font-size: 16px;
   font-weight: 600;
   font-family: inherit;
@@ -197,7 +225,6 @@ input[type="text"] {
   font-size: 18px;
   padding: 20px 24px;
   border: 2px solid #e2e8f0;
-  border-radius: 12px;
   background: #ffffff;
   color: #1e293b;
   margin-bottom: 24px;
@@ -422,6 +449,466 @@ input::placeholder {
 .instruction-item p {
   color: #64748b;
   line-height: 1.6;
+}
+
+/* 認証関連のスタイル */
+.auth-menu {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.auth-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.auth-btn:hover {
+  color: #3b82f6;
+  background-color: #f1f5f9;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.username-display {
+  color: #3b82f6;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.user-level-display {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-right: 1rem;
+}
+
+/* 認証モーダル */
+.auth-modal, .stats-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  padding: 24px;
+}
+
+.auth-content, .stats-content {
+  background: white;
+  padding: 32px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 20px 64px rgba(0, 0, 0, 0.2);
+}
+
+.stats-content {
+  max-width: 800px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-header, .stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.auth-header h2, .stats-header h2 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.close-btn:hover {
+  background-color: #f1f5f9;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.form-actions {
+  margin-bottom: 20px;
+}
+
+.form-actions button {
+  width: 100%;
+}
+
+.auth-switch {
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.auth-switch p {
+  margin: 0 0 8px 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.auth-switch-btn {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: background-color 0.2s ease;
+}
+
+.auth-switch-btn:hover {
+  background-color: #f1f5f9;
+}
+
+.auth-error {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 12px 16px;
+  margin-top: 16px;
+  font-size: 14px;
+  border: 1px solid #fecaca;
+}
+
+/* 統計表示 */
+.stats-overview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 20px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.stat-number {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.stat-desc {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+#userStatsContent {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.recent-games {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-games h3 {
+  margin-bottom: 16px;
+  color: #1e293b;
+  font-size: 18px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+#recentGamesList {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 300px;
+  padding-right: 8px;
+}
+
+.game-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f8fafc;
+  margin-bottom: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.game-date {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.game-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.game-rank {
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.rank-s { background: #fbbf24; color: white; }
+.rank-a { background: #e5e7eb; color: #374151; }
+.rank-b { background: #d97706; color: white; }
+.rank-c { background: #6b7280; color: white; }
+
+/* 使い方ページのスタイル */
+.how-to-section {
+  padding: 2rem;
+  background: #f8fafc;
+  min-height: calc(100vh - 70px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.how-to-section h1 {
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 60px;
+  color: #1e293b;
+}
+
+.section-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+.section-card h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: #1e293b;
+}
+
+.rank-explanation {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.rank-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.rank-badge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.rank-desc h4 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.rank-desc p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.feature-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.feature-item {
+  padding: 24px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.feature-item h4 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.feature-item p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.stats-explanation {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.stat-explanation {
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.stat-explanation h4 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.stat-explanation p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.shortcut-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+kbd {
+  background: #1e293b;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: center;
+}
+
+.troubleshooting {
+  display: grid;
+  gap: 24px;
+}
+
+.issue-item {
+  padding: 24px;
+  background: #fef2f2;
+  border-radius: 12px;
+  border: 1px solid #fecaca;
+}
+
+.issue-item h4 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #dc2626;
+}
+
+.issue-item p {
+  margin: 0;
+  color: #991b1b;
+  line-height: 1.6;
+}
+
+.back-to-game {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.back-to-game .btn-primary {
+  display: inline-block;
+  padding: 16px 32px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 /* レスポンシブ対応 */
