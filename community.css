@@ -14,13 +14,13 @@
 }
 
 .community-header h1 {
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
     font-size: 2.5rem;
 }
 
 .community-subtitle {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 1.2rem;
     font-weight: 500;
 }
@@ -31,6 +31,7 @@
     color: white;
     padding: 2rem;
     margin-bottom: 2rem;
+    border-radius: 16px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
@@ -102,18 +103,20 @@
 
 /* 報酬センター */
 .rewards-section, .job-offers-section, .chat-section, .level-info-section {
-    background: white;
+    background: var(--bg-secondary);
     padding: 2rem;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #f0f0f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px var(--shadow-secondary);
+    border: 1px solid var(--border-primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .rewards-section h2, .job-offers-section h2, .chat-section h2, .level-info-section h2 {
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 1.5rem;
     font-size: 1.8rem;
-    border-bottom: 2px solid #667eea;
+    border-bottom: 2px solid var(--accent-primary);
     padding-bottom: 0.5rem;
 }
 
@@ -123,25 +126,26 @@
 
 .no-rewards, .no-jobs {
     text-align: center;
-    color: #888;
+    color: var(--text-secondary);
     font-style: italic;
     padding: 2rem;
-    background: #f8f9fa;
-    border-radius: 8px;
+    background: var(--bg-tertiary);
+    border-radius: 12px;
     margin-bottom: 1rem;
+    transition: background-color 0.3s ease;
 }
 
 .reward-item, .job-item {
-    background: #f8f9fa;
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-primary);
+    border-radius: 12px;
     padding: 1.5rem;
     margin-bottom: 1rem;
     transition: all 0.3s ease;
 }
 
 .reward-item:hover, .job-item:hover {
-    border-color: #667eea;
+    border-color: var(--accent-primary);
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
 }
@@ -156,7 +160,7 @@
 .reward-title, .job-title {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .reward-type {
@@ -168,17 +172,17 @@
 }
 
 .reward-description, .job-description {
-    color: #666;
+    color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 1rem;
 }
 
 .claim-btn, .apply-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100());
     color: white;
     border: none;
     padding: 0.8rem 1.5rem;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s ease;
@@ -191,15 +195,16 @@
 
 /* 求人情報 */
 .job-requirements {
-    background: #e8f4fd;
-    border: 1px solid #b3d9ff;
-    border-radius: 8px;
+    background: var(--success-bg);
+    border: 1px solid var(--success-border);
+    border-radius: 12px;
     padding: 1.5rem;
     margin-top: 1rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .job-requirements h4 {
-    color: #0056b3;
+    color: var(--success-text);
     margin-bottom: 1rem;
 }
 
@@ -210,7 +215,7 @@
 
 .job-requirements li {
     padding: 0.5rem 0;
-    color: #333;
+    color: var(--text-primary);
     position: relative;
     padding-left: 1.5rem;
 }
@@ -227,16 +232,17 @@
 .chat-messages {
     height: 400px;
     overflow-y: auto;
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
+    border: 2px solid var(--border-primary);
+    border-radius: 12px;
     padding: 1rem;
     margin-bottom: 1rem;
-    background: #fafafa;
+    background: var(--bg-tertiary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .loading-messages {
     text-align: center;
-    color: #888;
+    color: var(--text-secondary);
     font-style: italic;
     padding: 2rem;
 }
@@ -244,9 +250,10 @@
 .message-item {
     margin-bottom: 1rem;
     padding: 1rem;
-    border-radius: 10px;
-    background: white;
-    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .message-header {
@@ -258,24 +265,25 @@
 
 .message-username {
     font-weight: 600;
-    color: #667eea;
+    color: var(--accent-primary);
 }
 
 .message-level {
-    background: #f8f9fa;
-    color: #666;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
     padding: 0.2rem 0.6rem;
     border-radius: 12px;
     font-size: 0.8rem;
+    transition: background-color 0.3s ease;
 }
 
 .message-time {
-    color: #888;
+    color: var(--text-tertiary);
     font-size: 0.85rem;
 }
 
 .message-content {
-    color: #333;
+    color: var(--text-primary);
     line-height: 1.5;
 }
 
@@ -312,16 +320,18 @@
 #messageInput {
     flex: 1;
     resize: vertical;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
+    border: 2px solid var(--border-primary);
+    border-radius: 12px;
     padding: 1rem;
     font-family: inherit;
     font-size: 1rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     transition: border-color 0.3s ease;
 }
 
 #messageInput:focus {
-    border-color: #667eea;
+    border-color: var(--accent-primary);
     outline: none;
 }
 
@@ -330,7 +340,7 @@
     color: white;
     border: none;
     padding: 1rem 2rem;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s ease;
@@ -346,7 +356,7 @@
     padding: 1rem;
     background: #fff3cd;
     border: 1px solid #ffeaa7;
-    border-radius: 6px;
+    border-radius: 12px;
 }
 
 .chat-rules small {
@@ -358,13 +368,14 @@
 .login-required {
     text-align: center;
     padding: 3rem;
-    background: #f8f9fa;
-    border-radius: 10px;
-    border: 2px dashed #dee2e6;
+    background: var(--bg-tertiary);
+    border-radius: 16px;
+    border: 2px dashed var(--border-primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .login-required p {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 1.1rem;
     margin-bottom: 1.5rem;
 }
@@ -374,7 +385,7 @@
     color: white;
     border: none;
     padding: 1rem 2rem;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     font-weight: 600;
     font-size: 1rem;
@@ -388,14 +399,15 @@
 }
 
 .level-item {
-    background: #f8f9fa;
+    background: var(--bg-tertiary);
     padding: 1.5rem;
-    border-radius: 10px;
-    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    border: 1px solid var(--border-primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .level-item h4 {
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 1rem;
     font-size: 1.2rem;
 }
@@ -407,7 +419,7 @@
 
 .level-item li {
     padding: 0.5rem 0;
-    color: #555;
+    color: var(--text-secondary);
     position: relative;
     padding-left: 1.5rem;
 }
@@ -416,7 +428,7 @@
     content: "•";
     position: absolute;
     left: 0;
-    color: #667eea;
+    color: var(--accent-primary);
     font-weight: bold;
 }
 

@@ -288,12 +288,15 @@ class CommunityManager {
     renderRewards() {
         if (!this.rewardsContainer) return;
         
-        if (this.rewards.length === 0) {
+        // 求人招待以外の報酬のみをフィルタリング
+        const nonJobRewards = this.rewards.filter(reward => reward.reward_type !== 'job_invitation');
+        
+        if (nonJobRewards.length === 0) {
             this.rewardsContainer.innerHTML = '<p class="no-rewards">現在、受け取り可能な報酬はありません</p>';
             return;
         }
         
-        const rewardsHtml = this.rewards.map(reward => this.createRewardHtml(reward)).join('');
+        const rewardsHtml = nonJobRewards.map(reward => this.createRewardHtml(reward)).join('');
         this.rewardsContainer.innerHTML = rewardsHtml;
         
         // 報酬受け取りボタンのイベントリスナー
@@ -365,9 +368,12 @@ class CommunityManager {
     renderJobOffers() {
         if (!this.jobOffersContainer) return;
         
+        // 求人招待の報酬を取得
+        const jobInvitations = this.rewards.filter(reward => reward.reward_type === 'job_invitation');
+        
         const jobOffersSection = this.jobOffersContainer.querySelector('.no-jobs');
         
-        if (this.jobOffers.length === 0) {
+        if (this.jobOffers.length === 0 && jobInvitations.length === 0) {
             if (jobOffersSection) {
                 jobOffersSection.textContent = '現在、あなたの条件に合う求人はありません';
             }
@@ -379,8 +385,19 @@ class CommunityManager {
             jobOffersSection.remove();
         }
         
-        const jobOffersHtml = this.jobOffers.map(job => this.createJobOfferHtml(job)).join('');
-        this.jobOffersContainer.insertAdjacentHTML('afterbegin', jobOffersHtml);
+        let allJobsHtml = '';
+        
+        // 通常の求人情報
+        if (this.jobOffers.length > 0) {
+            allJobsHtml += this.jobOffers.map(job => this.createJobOfferHtml(job)).join('');
+        }
+        
+        // 求人招待を求人情報として表示
+        if (jobInvitations.length > 0) {
+            allJobsHtml += jobInvitations.map(invitation => this.createJobInvitationHtml(invitation)).join('');
+        }
+        
+        this.jobOffersContainer.insertAdjacentHTML('afterbegin', allJobsHtml);
     }
     
     createJobOfferHtml(job) {
@@ -420,6 +437,25 @@ class CommunityManager {
         }
     }
     
+    createJobInvitationHtml(invitation) {
+        const invitationData = invitation.reward_data;
+        return `
+            <div class="job-item job-invitation">
+                <div class="job-header">
+                    <h4 class="job-title">🎖️ 特別招待: ${this.escapeHtml(invitationData.position)}</h4>
+                    <span class="job-company">${this.escapeHtml(invitationData.company)}</span>
+                </div>
+                <p class="job-description">${this.escapeHtml(invitationData.message)}</p>
+                <div class="job-invitation-note">
+                    <strong>🌟 あなたの優秀な成績により特別に招待されました</strong>
+                </div>
+                <button class="apply-btn invitation-btn" data-invitation-id="${invitation.id}">
+                    招待を受ける
+                </button>
+            </div>
+        `;
+    }
+
     escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;

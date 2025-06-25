@@ -42,15 +42,24 @@ class AccountManager {
     async checkAuthStatus() {
         try {
             // APIクライアントの初期化を待つ
+            let retryCount = 0;
+            const maxRetries = 50; // 5秒間待機
+            
+            while (!window.apiClient && retryCount < maxRetries) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                retryCount++;
+            }
+            
             if (!window.apiClient) {
-                await new Promise(resolve => {
-                    const checkInterval = setInterval(() => {
-                        if (window.apiClient) {
-                            clearInterval(checkInterval);
-                            resolve();
-                        }
-                    }, 100);
-                });
+                console.error('APIクライアントの初期化に失敗しました');
+                this.showLoginRequired();
+                return;
+            }
+            
+            // APIクライアントの初期化を確実に待つ
+            if (!window.apiClient.currentUser && window.apiClient.token) {
+                console.log('APIクライアントを再初期化中...');
+                await window.apiClient.init();
             }
             
             // ログイン状態をチェック

@@ -14,13 +14,13 @@
 }
 
 .account-header h1 {
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
     font-size: 2.5rem;
 }
 
 .account-subtitle {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 1.2rem;
     font-weight: 500;
 }
@@ -29,13 +29,15 @@
 .login-required {
     text-align: center;
     padding: 4rem 2rem;
-    background: white;
-    border: 2px dashed #dee2e6;
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    border: 2px dashed var(--border-primary);
     margin: 2rem 0;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .login-required h2 {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 1.5rem;
     margin-bottom: 2rem;
     font-weight: 500;
@@ -46,6 +48,7 @@
     color: white;
     border: none;
     padding: 1rem 2rem;
+    border-radius: 12px;
     cursor: pointer;
     font-weight: 600;
     font-size: 1rem;
@@ -53,11 +56,13 @@
 
 /* プロフィールセクション */
 .profile-section {
-    background: white;
+    background: var(--bg-secondary);
     padding: 2rem;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #f0f0f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px var(--shadow-secondary);
+    border: 1px solid var(--border-primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .profile-header {
@@ -66,7 +71,8 @@
     gap: 2rem;
     margin-bottom: 2rem;
     padding-bottom: 2rem;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 2px solid var(--border-primary);
+    transition: border-color 0.3s ease;
 }
 
 .profile-avatar {
@@ -84,7 +90,7 @@
 
 .profile-info h2 {
     margin: 0 0 1rem 0;
-    color: #333;
+    color: var(--text-primary);
     font-size: 2rem;
 }
 
@@ -106,9 +112,10 @@
 }
 
 .exp-badge {
-    background: #f8f9fa;
-    color: #333;
-    border: 2px solid #e9ecef;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .pro-badge {
@@ -128,13 +135,14 @@
     align-items: center;
     gap: 1rem;
     padding: 1.5rem;
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
+    background: var(--bg-tertiary);
+    border-radius: 12px;
+    border: 1px solid var(--border-primary);
     transition: all 0.3s ease;
 }
 
 .stat-card:hover {
-    background: #e9ecef;
+    background: var(--border-primary);
     transform: translateY(-2px);
 }
 
@@ -151,29 +159,31 @@
 .stat-number {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #333;
+    color: var(--text-primary);
     line-height: 1;
 }
 
 .stat-label {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--text-secondary);
     margin-top: 0.3rem;
 }
 
 /* 統計セクション */
 .stats-section {
-    background: white;
+    background: var(--bg-secondary);
     padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #f0f0f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px var(--shadow-secondary);
+    border: 1px solid var(--border-primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .stats-section h2 {
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 2rem;
     font-size: 1.8rem;
-    border-bottom: 2px solid #667eea;
+    border-bottom: 2px solid var(--accent-primary);
     padding-bottom: 0.5rem;
 }
 
@@ -183,14 +193,16 @@
 }
 
 .overview-card {
-    background: #f8f9fa;
+    background: var(--bg-tertiary);
     padding: 2rem;
-    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    border: 1px solid var(--border-primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .overview-card h3 {
     margin: 0 0 1.5rem 0;
-    color: #333;
+    color: var(--text-primary);
     font-size: 1.3rem;
 }
 
@@ -208,20 +220,20 @@
     display: block;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #667eea;
+    color: var(--accent-primary);
     line-height: 1;
 }
 
 .overview-label {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--text-secondary);
     margin-top: 0.5rem;
     display: block;
 }
 
 /* 最近のゲーム履歴 */
 .recent-games-section h3 {
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 1.5rem;
     font-size: 1.3rem;
 }
@@ -229,13 +241,15 @@
 .games-container {
     max-height: 500px;
     overflow-y: auto;
-    border: 1px solid #e9ecef;
-    background: #fafafa;
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    background: var(--bg-tertiary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .loading-games {
     text-align: center;
-    color: #888;
+    color: var(--text-secondary);
     font-style: italic;
     padding: 2rem;
 }
@@ -245,13 +259,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.5rem;
-    background: white;
-    border-bottom: 1px solid #e9ecef;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-primary);
     transition: background-color 0.2s ease;
 }
 
 .game-item:hover {
-    background: #f8f9fa;
+    background: var(--bg-tertiary);
 }
 
 .game-item:last-child {
@@ -260,7 +274,7 @@
 
 .game-date {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--text-secondary);
     min-width: 100px;
 }
 
@@ -279,13 +293,13 @@
 .game-stat-value {
     display: block;
     font-weight: 600;
-    color: #333;
+    color: var(--text-primary);
     font-size: 1.1rem;
 }
 
 .game-stat-label {
     font-size: 0.8rem;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .game-rank {
