@@ -193,11 +193,7 @@
 }
 
 .overview-card {
-    background: var(--bg-tertiary);
-    padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid var(--border-primary);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    /* This card is now a wrapper for the individual stat items */
 }
 
 .overview-card h3 {
@@ -208,12 +204,23 @@
 
 .overview-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
 }
 
 .overview-item {
     text-align: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px var(--shadow-secondary);
+    transition: all 0.2s ease;
+}
+
+.overview-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px var(--shadow-primary);
 }
 
 .overview-number {
@@ -316,6 +323,12 @@
 .rank-c { background: #6b7280; color: white; }
 
 /* レスポンシブデザイン */
+@media (max-width: 900px) {
+    .overview-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
     .account-container {
         padding: 1rem;
@@ -329,10 +342,6 @@
     
     .profile-badges {
         justify-content: center;
-    }
-    
-    .overview-stats {
-        grid-template-columns: repeat(2, 1fr);
     }
     
     .game-item {
@@ -364,4 +373,27 @@
         flex-direction: column;
         gap: 0.5rem;
     }
+}
+
+/* 統計グラフ */
+.stats-chart-section {
+    margin-top: 2rem;
+}
+
+.stats-chart-section h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-primary);
+}
+
+.chart-container {
+    position: relative;
+    height: 400px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-primary);
 }

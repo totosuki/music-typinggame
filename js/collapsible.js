@@ -142,6 +142,3 @@ class CollapsibleManager {
 
 // グローバルに露出
 window.CollapsibleManager = CollapsibleManager;
-
-// 自動初期化
-window.collapsibleManager = new CollapsibleManager();

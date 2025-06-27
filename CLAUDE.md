@@ -1,87 +1,136 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 指示が無い限りは常に日本語で回答してください。
 指示が無い限りはインデントはスペース4つにしてください。
 
-## アプリケーション概要
-音声タイピングゲーム - 音声読み上げされた日本語文章を聞いてタイピングするWebアプリケーション  
-**デザイン**: Apple公式サイト風のモダンUI（ダークテーマ、SF Pro Display フォント）
+# important-instruction-reminders
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
 
-## アーキテクチャ
-- **技術スタック**: ピュアHTML/CSS/JavaScript（フレームワーク無し）
-- **構成**: 3ファイル構成のシンプルなWebアプリ
-  - `index.html`: UIマークアップ（詳細結果表示対応）
-  - `script.js`: ゲームロジック（約900行、統計分析機能付き）
-  - `style.css`: Appleスタイルデザイン（約400行）
+## 最新のアーキテクチャ（2024年更新）
 
-## 主要機能とコンポーネント
+### 技術スタック
+- **フロントエンド**: バニラHTML/CSS/JavaScript（フレームワークなし）
+- **バックエンド**: FastAPI + SQLAlchemy + SQLite
+- **認証**: JWT（JSON Web Token）
+- **外部ライブラリ**: Chart.js（統計グラフ）
+- **フォント**: Inter（Google Fonts）
 
-### ゲーム機能（script.js）
-- **文章管理**: 131の日本語文章を3段階の難易度に分類
-  - 初級（easy）: 10文字以下
-  - 中級（normal）: 11-20文字  
-  - 上級（hard）: 21文字以上
-- **音声合成**: Web Speech API使用（日本語対応）
-- **タイマー管理**: 全体制限時間 + 文章別制限時間
-- **スコアリング**: 正解数ベースのランク判定（S/A/B/C）
-- **UI制御**: リアルタイムプログレスバー、結果表示
+### アプリケーション構成
 
-### UI構成（index.html + style.css）
+#### フロントエンドページ
+1. **index.html**: メインゲームページ
+2. **community.html**: コミュニティチャット・報酬・求人情報
+3. **account.html**: ユーザープロフィール・統計・設定
+4. **how-to-use.html**: 使い方ガイド
+
+#### JavaScript モジュール（js/）
+- **config.js**: ゲーム設定・文章データ・難易度定義
+- **api-client.js**: FastAPI通信・認証管理
+- **auth.js**: ログイン/新規登録UI管理
+- **game-logic.js**: ゲームロジック・音声合成・統計
+- **ui-manager.js**: プログレスバー・結果表示
+- **main-game.js**: メインゲームクラス
+- **community.js**: コミュニティページ機能
+- **account.js**: アカウントページ機能・統計グラフ
+- **dark-mode.js**: ダークモード切り替え
+- **collapsible.js**: 折りたたみUI（未使用）
+- **app.js**: アプリケーション初期化
+
+#### CSS スタイル
+- **style.css**: メインスタイル（CSS変数・ダークモード対応）
+- **community.css**: コミュニティページ専用
+- **account.css**: アカウントページ専用
+
+### バックエンドAPI（main.py）
+
+#### データベースモデル
+- **User**: ユーザー認証情報
+- **UserProfile**: プロフィール・レベル・経験値
+- **GameResult**: ゲーム結果・統計
+- **CommunityMessage**: チャットメッセージ
+- **JobOffer**: 求人情報
+- **Reward**: 報酬・実績
+
+#### 主要エンドポイント
+```
+POST /register - ユーザー登録
+POST /login - ログイン
+GET /profile - プロフィール取得
+POST /game-result - ゲーム結果保存
+GET /community/messages - チャットメッセージ取得
+POST /community/messages - メッセージ投稿
+GET /job-offers - 求人情報取得
+GET /rewards - 報酬一覧取得
+```
+
+## 主要機能
+
+### 1. ゲームシステム
+- **音声タイピングゲーム**: Web Speech API使用
+- **難易度別文章**: 初級/中級/上級の3段階
+- **ランク判定**: S/A/B/C（スコアと正確率基準）
+- **リアルタイム統計**: WPM・正確率・苦手キー分析
+
+### 2. ユーザー管理
+- **JWT認証**: ログイン状態管理
+- **プロフィールシステム**: レベル・経験値・実績
+- **統計追跡**: 過去のゲーム結果・パフォーマンス推移
+
+### 3. コミュニティ機能
+- **チャット**: リアルタイムメッセージング
+- **報酬システム**: 実績・ボーナス配布
+- **求人情報**: 高ランクユーザー向け特別招待
+
+### 4. UI/UX
+- **ダークモード**: システム設定連動＋手動切り替え
 - **レスポンシブデザイン**: モバイル対応
-- **モダンUI**: グラデーション背景、ブラーエフェクト
-- **ゲームコントロール**: 時間制限・難易度選択
-- **リアルタイム表示**: 進捗バー、残り時間、スコア
+- **モダンデザイン**: 角丸・グラデーション・アニメーション
 
-### 詳細結果分析機能
-- **WPM計算**: Words Per Minute（5文字=1単語換算）
-- **正確率計算**: 正確な文字数 ÷ 総入力文字数 × 100
-- **苦手キー分析**: エラー率50%以上のキーを特定・表示
-- **総合統計**: 正解数、総文字数、入力時間の詳細記録
+## 特記事項
 
-### 特殊機能
-- **特別招待システム**: A以上のランクで採用情報表示
-- **キーボードショートカット**: Enter（開始/送信）、Escape（リセット）
-- **音声フィードバック**: 正解/不正解/時間切れの音声通知
-- **リアルタイム統計**: ゲーム中の入力をリアルタイム分析
+### ダークモード実装
+- CSS変数システム使用（`:root`と`[data-theme="dark"]`）
+- システム設定自動検出（`prefers-color-scheme`）
+- ローカルストレージで設定保存
+- 全ページ対応
+
+### 統計システム
+- **Chart.js**: WPMと正確率の推移グラフ
+- **パフォーマンス分析**: 時系列データ可視化
+- **苦手キー特定**: エラー率50%以上のキー表示
+
+### テレビ朝日コラボ企画
+- **人材プール**: 高ランクユーザーの採用支援
+- **プロ認定**: レベル20以上で認定バッジ
+- **特別招待**: Aランク以上で求人アクセス
+
+## 開発履歴
+
+### Geminiによる最新変更（2024年12月）
+1. **Inter フォント導入**: Google Fonts経由
+2. **Chart.js統合**: 統計グラフ機能追加
+3. **UI大幅改善**: コミュニティ・アカウントページリデザイン
+4. **カードベースレイアウト**: `.card`クラス統一
+5. **レスポンシブ強化**: モバイル表示最適化
+6. **アニメーション追加**: ホバーエフェクト・トランジション
+
+### ファイル構成の変更
+- アカウントページの統計グラフ機能追加（Chart.js）
+- コミュニティページの全面リデザイン
+- CSS変数システムによるダークモード完全対応
+- 折りたたみ機能削除（ユーザー要望）
+
+### 重要な技術仕様
+- **WPM計算**: 日本語ベース（文字/分）
+- **経験値システム**: `スコア×10 + WPM×2 + 正確率×3`
+- **レベル計算**: `level²×100`の累積経験値
+- **ランク条件**: S(90%以上)、A(80%以上)、B(70%以上)、C(未満)
 
 ## 開発時の注意点
-- **ブラウザ対応**: Web Speech API対応ブラウザが必要
-- **音声制限**: デバイスや設定により音声合成が制限される可能性
-- **セキュリティ**: HTTPSが必要な機能を含む場合あり
-
-## 文章データ構造
-```javascript
-const sentences = [...]; // 131文章の配列
-const easySentences = sentences.filter(sentence => sentence.length <= 10);
-const normalSentences = sentences.filter(sentence => sentence.length > 10 && sentence.length <= 20);
-const hardSentences = sentences.filter(sentence => sentence.length > 20);
-```
-
-## ゲーム状態管理
-主要なグローバル変数:
-- `isGameActive`: ゲーム進行中フラグ
-- `currentSentence`: 現在の問題文
-- `score`: 正解数
-- `timeRemaining`: 残り時間
-- `currentDifficulty`: 選択難易度
-- `gameStats`: 統計データオブジェクト
-  - `totalCharacters`: 総入力文字数
-  - `correctCharacters`: 正確な文字数
-  - `keystrokes`: キー別の入力回数と間違い回数
-  - `startTime/endTime`: ゲーム開始/終了時刻
-
-## 統計分析システム
-```javascript
-gameStats = {
-    totalCharacters: 0,       // 総入力文字数
-    correctCharacters: 0,     // 正確な文字数
-    incorrectCharacters: 0,   // 間違った文字数
-    keystrokes: {},          // キー別の入力回数と間違い回数
-    startTime: null,         // ゲーム開始時刻
-    endTime: null,           // ゲーム終了時刻
-    totalAnswers: 0,         // 総回答数
-    correctAnswers: 0        // 正解数
-};
-```
+- **認証状態**: ページ間で一貫したJWT管理
+- **API通信**: 非同期処理の適切なエラーハンドリング
+- **音声機能**: HTTPS環境でのWeb Speech API制限
+- **モバイル対応**: タッチ操作・画面サイズ考慮

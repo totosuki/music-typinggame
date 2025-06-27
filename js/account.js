@@ -181,6 +181,83 @@ class AccountManager {
         
         // 最近のゲーム履歴
         this.updateRecentGames();
+        this.renderStatsChart();
+    }
+    
+    renderStatsChart() {
+        const ctx = document.getElementById('statsChart')?.getContext('2d');
+        if (!ctx || !this.stats || !this.stats.recent_games) return;
+
+        if (this.statsChart) {
+            this.statsChart.destroy();
+        }
+
+        const labels = this.stats.recent_games.map(game => new Date(game.date).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' })).reverse();
+        const wpmData = this.stats.recent_games.map(game => Math.round(game.wpm)).reverse();
+        const accuracyData = this.stats.recent_games.map(game => Math.round(game.accuracy)).reverse();
+
+        this.statsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'WPM (文字/分)',
+                        data: wpmData,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        yAxisID: 'yWPM',
+                    },
+                    {
+                        label: '正確率 (%)',
+                        data: accuracyData,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        yAxisID: 'yAccuracy',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yWPM: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'WPM'
+                        },
+                        beginAtZero: true
+                    },
+                    yAccuracy: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        min: 0,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: '正確率 (%)'
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                }
+            }
+        });
     }
     
     updateRecentGames() {
